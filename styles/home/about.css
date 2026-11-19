@@ -1,0 +1,398 @@
+/* ==========================================================================
+   Vedvan — home section: About Vedvan (pinned frame-sequence film)
+   Two layouts:
+   - Default (no JS, reduced motion, animation failure): heading, poster
+     frame and the three chapters in normal flow, fully readable.
+   - .is-sequenced (added by about.js when motion is allowed): one viewport
+     tall and pinned. The window is a full-viewport layer whose clip-path and
+     inner scale are driven from the master timeline; .about__slot only
+     marks where the compact window sits before it opens.
+   ========================================================================== */
+@layer components {
+  .about {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    overflow: hidden;
+    padding: var(--vv-section-y) var(--vv-gutter);
+    background: linear-gradient(165deg, var(--vedvan-green-light) 0%, var(--vedvan-green-dark) 48%, var(--vedvan-green-dark) 70%, var(--vedvan-green-light) 100%);
+    color: var(--vv-ivory);
+  }
+
+  .about__intro {
+    text-align: center;
+  }
+
+  .about__title {
+    margin: 0;
+    font-family: var(--vv-font-display);
+    font-size: clamp(2.75rem, min(7vw, 11vh), 2.875rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--vv-ivory);
+  }
+
+  .about__title em {
+    font-style: normal;
+    color: inherit;
+  }
+
+  .about__word {
+    display: inline-block;
+  }
+
+  .about__slot {
+    display: none;
+  }
+
+  .about__window {
+    position: relative;
+    max-width: 72rem;
+    margin: clamp(2.5rem, 6vw, 4.5rem) auto 0;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 1.25rem;
+    background-color: #3d5230;
+  }
+
+  .about__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .about__poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .about__canvas,
+  .about__shade,
+  .about__veil,
+  .about__loader,
+  .about__heading--echo {
+    display: none;
+  }
+
+  /* Chapters (static: an editorial column under the poster) */
+  .about__chapters {
+    display: grid;
+    gap: clamp(3rem, 8vw, 6rem);
+    max-width: 64rem;
+    margin: clamp(3rem, 8vw, 6rem) auto 0;
+  }
+
+  .about__copy {
+    position: relative;
+  }
+
+  .about__heading {
+    margin: 0;
+    font-family: var(--vv-font-display);
+    font-size: clamp(2rem, 1.4vw + 1.5rem, 2.875rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--vv-ivory);
+  }
+
+  .about__heading--large {
+    font-size: clamp(2.5rem, min(5.2vw, 9vh), 2.875rem);
+    font-weight: 300;
+    line-height: 0.98;
+  }
+
+  .about__text {
+    --reveal: 1;
+    max-width: 36rem;
+    margin: clamp(1rem, 2.4vh, 1.5rem) 0 0;
+    font-size: clamp(0.9375rem, 0.3vw + 0.86rem, 1.1875rem);
+    font-weight: 400;
+    line-height: 1.65;
+    color: rgb(243 236 214 / 0.9);
+  }
+
+  .about__text strong {
+    font-weight: 500;
+    color: var(--vv-text-gold);
+  }
+
+  .about__rule {
+    display: block;
+    width: 3.5rem;
+    height: 1px;
+    margin-bottom: clamp(1rem, 2.4vh, 1.5rem);
+    background-color: var(--vv-gold-light);
+    transform-origin: 0 50%;
+  }
+
+  .about__pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2rem, 6vw, 6.5rem);
+  }
+
+  @media (max-width: 47.99rem) {
+    .about__pair {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* Sequenced (pinned) mode ------------------------------------------ */
+  .about.is-sequenced {
+    height: 100vh;
+    height: 100svh;
+    padding: 0;
+  }
+
+  .about.is-sequenced .about__intro {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: calc(var(--vv-header-top) + var(--vv-nav-height) + clamp(1.25rem, 6vh, 4.5rem)) var(--vv-gutter) 0;
+    pointer-events: none;
+  }
+
+  .about.is-sequenced .about__title {
+    font-size: clamp(2.5rem, min(6.4vw, 10vh), 2.875rem);
+    will-change: transform;
+  }
+
+  /* Compact window: the full frame (16:9) at rest; portrait screens use a
+     4:5 crop of the portrait frame set */
+  .about.is-sequenced .about__slot {
+    display: block;
+    width: min(60vw, calc(58svh * 16 / 9));
+    aspect-ratio: 16 / 9;
+    margin-top: clamp(1.5rem, 5vh, 3.5rem);
+    border-radius: 1.25rem;
+    visibility: hidden;
+  }
+
+  .about.is-sequenced .about__window {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    max-width: none;
+    margin: 0;
+    aspect-ratio: auto;
+    border-radius: 0;
+    will-change: clip-path, transform;
+  }
+
+  .about.is-sequenced .about__media {
+    transform-origin: 50% 50%;
+    will-change: transform;
+  }
+
+  .about.is-sequenced .about__canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.6s var(--vv-ease-out);
+  }
+
+  .about.has-frames .about__canvas {
+    opacity: 1;
+  }
+
+  /* Legibility shades inside the window; about.js fades in the one that
+     suits each chapter's frame and text position */
+  .about.is-sequenced .about__shade {
+    position: absolute;
+    inset: 0;
+    display: block;
+    pointer-events: none;
+  }
+
+  .about__shade--base {
+    background: radial-gradient(140% 110% at 50% 45%, transparent 55%, rgb(16 21 15 / 0.35) 100%);
+  }
+
+  .about__shade--side {
+    background: linear-gradient(90deg, rgb(16 21 15 / 0.82) 0%, rgb(16 21 15 / 0.55) 32%, rgb(16 21 15 / 0) 62%);
+  }
+
+  .about__shade--low {
+    background: linear-gradient(to top, rgb(16 21 15 / 0.88) 0%, rgb(16 21 15 / 0.6) 30%, rgb(16 21 15 / 0) 62%);
+  }
+
+  .about__shade--high {
+    background: linear-gradient(160deg, rgb(16 21 15 / 0.85) 0%, rgb(16 21 15 / 0.5) 34%, rgb(16 21 15 / 0) 64%);
+  }
+
+  .about.is-sequenced .about__chapters {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: block;
+    max-width: none;
+    margin: 0;
+    pointer-events: none;
+  }
+
+  .about.is-sequenced .about__chapter {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    padding:
+      calc(var(--vv-header-top) + var(--vv-nav-height) + clamp(1.5rem, 5vh, 3.5rem))
+      clamp(1.25rem, 6vw, 7rem)
+      clamp(2.5rem, 9vh, 6rem);
+    opacity: 0;
+  }
+
+  .about.is-sequenced .about__heading--echo {
+    display: block;
+  }
+
+  .about.is-sequenced .about__text {
+    text-shadow: 0 1px 1.5rem rgb(16 21 15 / 0.35);
+    /* about.js sets --text-mask to none while words disperse, since a mask
+       clips everything outside the paragraph box */
+    --text-mask: linear-gradient(to bottom, #000 calc(var(--reveal) * 130% - 30%), transparent calc(var(--reveal) * 130%));
+    -webkit-mask-image: var(--text-mask);
+    mask-image: var(--text-mask);
+  }
+
+  .about.is-sequenced .about__chapter--what {
+    align-items: center;
+  }
+
+  .about.is-sequenced .about__chapter--what .about__copy {
+    width: min(34rem, 42vw);
+  }
+
+  .about.is-sequenced .about__chapter--vision {
+    align-items: flex-end;
+  }
+
+  .about.is-sequenced .about__chapter--vision .about__copy {
+    width: min(72rem, 100%);
+  }
+
+  .about.is-sequenced .about__chapter--philosophy {
+    align-items: flex-start;
+  }
+
+  .about.is-sequenced .about__chapter--philosophy .about__copy {
+    width: min(40rem, 48vw);
+  }
+
+  /* Tints the last frames toward the next section's (story) green and makes
+     the lower edge solid, so the film melts into it as the pin releases */
+  .about.is-sequenced .about__veil {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    background: linear-gradient(to top, var(--vedvan-green-dark) 0%, rgb(47 61 37 / 0.82) 28%, rgb(47 61 37 / 0.4) 70%, rgb(47 61 37 / 0.3) 100%);
+  }
+
+  .about.is-sequenced .about__loader {
+    position: absolute;
+    right: var(--vv-gutter);
+    bottom: clamp(1.25rem, 4.5vh, 2.75rem);
+    z-index: 6;
+    display: block;
+    transition: opacity 0.8s var(--vv-ease-out);
+  }
+
+  .about__loader.is-done {
+    opacity: 0;
+  }
+
+  .about__loader-track {
+    position: relative;
+    display: block;
+    width: clamp(4.5rem, 8vw, 7.5rem);
+    height: 1px;
+    overflow: hidden;
+    background-color: rgb(196 204 142 / 0.22);
+  }
+
+  .about__loader-fill {
+    position: absolute;
+    inset: 0;
+    background-color: rgb(213 224 122 / 0.9);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+  }
+
+  /* Tablet ------------------------------------------------------------- */
+  @media (min-width: 48rem) and (max-width: 63.99rem) {
+    .about.is-sequenced .about__chapter--what .about__copy {
+      width: min(30rem, 58vw);
+    }
+
+    .about.is-sequenced .about__chapter--philosophy .about__copy {
+      width: min(34rem, 64vw);
+    }
+  }
+
+  /* Portrait screens (phones, upright tablets) --------------------------- */
+  @media (orientation: portrait) {
+    .about.is-sequenced .about__slot {
+      width: min(82vw, calc(54svh * 4 / 5), 34rem);
+      aspect-ratio: 4 / 5;
+    }
+
+    .about.is-sequenced .about__chapter--what {
+      align-items: flex-end;
+    }
+
+    .about.is-sequenced .about__chapter--what .about__copy,
+    .about.is-sequenced .about__chapter--philosophy .about__copy {
+      width: min(34rem, 100%);
+    }
+  }
+
+  /* Mobile ------------------------------------------------------------- */
+  @media (max-width: 47.99rem) {
+    .about.is-sequenced .about__chapter {
+      padding:
+        calc(var(--vv-header-top) + var(--vv-nav-height) + 1.5rem)
+        var(--vv-gutter)
+        clamp(1.75rem, 6svh, 3rem);
+    }
+
+    .about.is-sequenced .about__chapter .about__copy {
+      width: 100%;
+    }
+
+    .about.is-sequenced .about__pair {
+      gap: clamp(1.25rem, 3.5svh, 2rem);
+    }
+
+    .about.is-sequenced .about__heading {
+      font-size: clamp(1.625rem, min(7.5vw, 4.6svh), 2.25rem);
+    }
+
+    .about.is-sequenced .about__heading--large {
+      font-size: clamp(2.125rem, min(10vw, 6svh), 2.875rem);
+    }
+
+    .about.is-sequenced .about__text {
+      margin-top: clamp(0.625rem, 1.6svh, 1rem);
+      font-size: clamp(0.875rem, min(3.9vw, 2.2svh), 1rem);
+      line-height: 1.55;
+    }
+
+    .about.is-sequenced .about__rule {
+      margin-bottom: clamp(0.625rem, 1.6svh, 1rem);
+    }
+
+    .about__loader-track {
+      width: 4rem;
+    }
+  }
+}

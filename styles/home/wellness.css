@@ -1,0 +1,455 @@
+/* ==========================================================================
+   Vedvan — home section 5: wellness stacking cards
+   Base (reduced motion / before JS): a static list of image cards.
+   .is-stacked (wellness.js, motion allowed): one pinned viewport —
+   ≥768px: ivory column left (names on top, details at the bottom) and a
+   full-height image stack right with the large title over it.
+   <768px: image stack on top, names and details below.
+   Cards are translated by wellness.js only; z-index follows card order.
+   ========================================================================== */
+@layer components {
+  .wellness {
+    --wl-ivory: #fbf9ef;
+    --wl-ink: var(--vv-primary);
+    --wl-green: var(--vv-forest-700);
+    --wl-gold: var(--vv-secondary);
+    --wl-gold-text: var(--vv-secondary);
+    --wl-rule: rgb(182 169 110 / 0.32);
+    --wl-muted: var(--vv-primary);
+
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--wl-ivory);
+    color: var(--wl-ink);
+  }
+
+  /* Static layout ---------------------------------------------------------- */
+  /* Only the intro shows without the pinned sequence; list/details are hidden */
+  .wellness__copy {
+    padding: var(--vv-section-py) var(--vv-gutter) 0;
+  }
+
+  .wellness__list,
+  .wellness__details {
+    display: none;
+  }
+
+  .wellness__eyebrow {
+    margin: 0 0 clamp(0.5rem, 1.6svh, 1rem);
+    font-family: var(--vv-font-sub);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--vv-primary);
+  }
+
+  .wellness__title {
+    margin: 0;
+    max-width: 22ch;
+    font-family: var(--vv-font-display);
+    font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem);
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: 0.01em;
+    color: var(--wl-green);
+  }
+
+  .wellness__subtitle {
+    margin: clamp(0.5rem, 1.6svh, 1rem) 0 0;
+    max-width: 30rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--wl-ink);
+  }
+
+  .wellness__stack {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: clamp(2rem, 4vw, 3rem) clamp(1.25rem, 3vw, 2.5rem);
+    padding: var(--vv-section-py) var(--vv-gutter);
+  }
+
+  .wellness__card-label {
+    margin: 1rem 0 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--vv-text-gold);
+  }
+
+  .wellness__card-label + .wellness__card-name {
+    margin-top: 0.35rem;
+  }
+
+  .wellness__card {
+    margin: 0;
+  }
+
+  .wellness__card-media {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background-color: #e7e0cc;
+  }
+
+  .wellness__card-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .wellness__card-name {
+    margin: 1rem 0 0;
+    font-family: var(--vv-font-sub);
+    font-size: clamp(1.75rem, 1.2vw + 1.3rem, 2.25rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--wl-green);
+  }
+
+  .wellness__card-text {
+    margin: 0.5rem 0 0;
+    max-width: 30rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--wl-muted);
+  }
+
+  /* Stacked (pinned) layout -------------------------------------------------- */
+  .wellness.is-stacked {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 52fr) minmax(0, 48fr);
+    height: 100vh;
+    height: 100svh;
+  }
+
+  .wellness.is-stacked .wellness__copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 0;
+    padding: var(--vv-section-py) var(--vv-gutter);
+  }
+
+  .wellness.is-stacked .wellness__list {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Live entry and the invisible sizers share one grid cell: the panel is as
+     tall as the longest description, so nothing reflows between cards */
+  .wellness.is-stacked .wellness__details {
+    display: grid;
+  }
+
+  .wellness__details-live,
+  .wellness__details-sizer {
+    grid-area: 1 / 1;
+  }
+
+  .wellness__details-sizer {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .wellness__item {
+    font-family: var(--vv-font-sub);
+    font-size: clamp(1.25rem, 3.6svh, 2.875rem);
+    font-weight: 300;
+    line-height: 1.12;
+    color: var(--vv-text-gold);
+    transition: color var(--vv-duration-base) var(--vv-ease-out);
+  }
+
+  .wellness__item.is-active {
+    font-style: normal;
+    font-weight: 400;
+    color: var(--wl-green);
+  }
+
+  .wellness__details {
+    padding-top: clamp(0.75rem, 2svh, 1.25rem);
+    border-top: 1px solid var(--wl-rule);
+  }
+
+  /* Active slide headline */
+  .wellness__details-name {
+    margin: 0;
+    font-family: var(--vv-font-sub);
+    font-size: clamp(1.0625rem, 0.6vw + 0.9rem, 1.375rem);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--wl-green);
+  }
+
+  .wellness__details-text {
+    margin: 0.5rem 0 0;
+    max-width: 25rem;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--wl-ink);
+  }
+
+  .wellness.is-stacked .wellness__stack {
+    position: relative;
+    display: block;
+    grid-row: 1;
+    overflow: hidden;
+    padding: 0;
+    background-color: var(--vv-forest-900);
+  }
+
+  .wellness.is-stacked .wellness__card {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    will-change: transform;
+  }
+
+  .wellness.is-stacked .wellness__card-media {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  /* Taller than the card: the image drifts slightly while its card enters */
+  .wellness.is-stacked .wellness__card-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 112%;
+    will-change: transform;
+  }
+
+  .wellness.is-stacked .wellness__card-label,
+  .wellness.is-stacked .wellness__card-name,
+  .wellness.is-stacked .wellness__card-text {
+    display: none;
+  }
+
+  /* Phones/tablets: the copy panel takes exactly the height its content
+     needs and the image fills whatever is left, so text is never clipped.
+     The intro paragraph gives way and the names become a compact row. */
+  @media (max-width: 63.99rem) {
+    .wellness.is-stacked {
+      grid-template-rows: minmax(0, 1fr) auto;
+    }
+
+    .wellness.is-stacked .wellness__copy {
+      grid-row: 2;
+      justify-content: flex-start;
+      gap: clamp(0.625rem, 1.8svh, 1rem);
+      padding: clamp(1rem, 2.6svh, 1.75rem) var(--vv-gutter)
+        clamp(1rem, 3svh, 2rem);
+    }
+
+    .wellness.is-stacked .wellness__subtitle {
+      display: none;
+    }
+
+    .wellness.is-stacked .wellness__eyebrow {
+      margin-bottom: 0.375rem;
+      font-size: 0.6875rem;
+    }
+
+    .wellness.is-stacked .wellness__title {
+      max-width: 28ch;
+      font-size: clamp(1.25rem, 1.6svh + 0.75rem, 1.75rem);
+    }
+
+    .wellness.is-stacked .wellness__list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.375rem 1rem;
+    }
+
+    .wellness.is-stacked .wellness__item {
+      font-family: inherit;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      line-height: 1.4;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .wellness.is-stacked .wellness__details {
+      padding-top: clamp(0.625rem, 1.6svh, 1rem);
+    }
+
+    .wellness.is-stacked .wellness__details-text {
+      max-width: 36rem;
+    }
+  }
+
+  /* Tablets: a little more room for the type */
+  @media (min-width: 48rem) and (max-width: 63.99rem) {
+    .wellness.is-stacked .wellness__title {
+      font-size: clamp(1.625rem, 1.4svh + 1rem, 2.125rem);
+    }
+
+    .wellness.is-stacked .wellness__item {
+      font-size: 0.75rem;
+    }
+
+    .wellness.is-stacked .wellness__details-text {
+      font-size: 0.875rem;
+    }
+  }
+
+  /* Side-by-side (copy | cards) only from lg (1024px); phones and tablets
+     keep the single-column stack above. */
+  @media (min-width: 64rem) {
+    .wellness.is-stacked {
+      grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+      grid-template-rows: minmax(0, 1fr);
+    }
+
+    .wellness.is-stacked .wellness__copy {
+      grid-column: 1;
+      grid-row: 1;
+      padding:
+        var(--vv-section-py-top)
+        clamp(1.5rem, 4vw, 3.5rem)
+        var(--vv-section-py)
+        var(--vv-gutter);
+    }
+
+    .wellness.is-stacked .wellness__stack {
+      grid-column: 2;
+    }
+
+    .wellness__item {
+      font-size: clamp(1.5rem, 1.6vw + 0.6rem, 2.25rem);
+    }
+  }
+
+  /* lg → xl (1024–1279px): simple slider (buildSlider in wellness.js), not
+     pinned. No fixed height: the section is as tall as the copy column and
+     the image stack stretches to match. Cards are switched with a clip wipe. */
+  @media (min-width: 64rem) and (max-width: 79.99rem) {
+    .wellness.is-slider {
+      height: auto;
+      grid-template-rows: auto;
+    }
+
+    .wellness.is-slider .wellness__copy {
+      justify-content: flex-start;
+      gap: clamp(1.5rem, 3vw, 2.25rem);
+      padding-block: var(--vv-section-py);
+    }
+
+    .wellness.is-slider .wellness__item {
+      width: fit-content;
+      cursor: pointer;
+    }
+
+    .wellness.is-slider .wellness__item:not(.is-active):hover {
+      color: var(--wl-green);
+    }
+
+    .wellness.is-slider .wellness__item:focus-visible {
+      outline: 1px solid var(--wl-gold);
+      outline-offset: 4px;
+    }
+
+    /* Every card stays painted (never visibility: hidden) so its image stays
+       decoded and there is always a full picture under the wipe — the dark
+       stack background can never show through. Order is by z-index only. */
+    .wellness.is-slider .wellness__card {
+      z-index: 0;
+      will-change: clip-path;
+      backface-visibility: hidden;
+    }
+
+    .wellness.is-slider .wellness__card.is-under { z-index: 1; }
+    .wellness.is-slider .wellness__card.is-leaving { z-index: 2; }
+    .wellness.is-slider .wellness__card.is-active { z-index: 3; }
+
+    /* Controls */
+    .wellness__slider-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .wellness__slider-btn {
+      display: grid;
+      place-items: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      padding: 0;
+      border: 1px solid var(--wl-rule);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--wl-green);
+      cursor: pointer;
+      transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+    }
+
+    .wellness__slider-btn:hover {
+      border-color: var(--wl-green);
+      background-color: var(--wl-green);
+      color: var(--wl-ivory);
+    }
+
+    .wellness__slider-btn svg { width: 1.125rem; height: 1.125rem; }
+    .wellness__slider-btn--prev svg { transform: scaleX(-1); }
+
+    .wellness__slider-dots {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .wellness__slider-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background-color: rgb(182 169 110 / 0.4);
+      cursor: pointer;
+      transition: width 0.3s var(--vv-ease-out), background-color 0.3s;
+    }
+
+    .wellness__slider-dot.is-active {
+      width: 1.75rem;
+      background-color: var(--wl-green);
+    }
+
+    .wellness__slider-count {
+      margin-left: auto;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      font-variant-numeric: tabular-nums;
+      color: var(--wl-green);
+    }
+
+    .wellness__slider-count i {
+      font-style: normal;
+      opacity: 0.5;
+    }
+  }
+
+  /* Short phones: names give way so the image keeps a usable height */
+  @media (max-width: 63.99rem) and (max-height: 37.5rem) {
+    .wellness.is-stacked .wellness__list {
+      display: none;
+    }
+  }
+
+  /* Landscape phones: only the slide copy stays under the image */
+  @media (max-width: 63.99rem) and (max-height: 28rem) {
+    .wellness.is-stacked .wellness__intro {
+      display: none;
+    }
+  }
+}

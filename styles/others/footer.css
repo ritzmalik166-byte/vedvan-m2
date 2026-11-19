@@ -1,0 +1,395 @@
+/* ==========================================================================
+   Vedvan — site footer
+
+   Pale cream-to-sky background. Two parts: the form on the left, and on the
+   right the menu, contact links and note spread with space-between so the
+   last column ends at the container edge. Below, a full-bleed image whose
+   sky fades into the background, with the copyright line and wordmark on it.
+   All footer text is black.
+   footer.js adds a scrubbed rise to the image and wordmark.
+   ========================================================================== */
+@layer components {
+  .site-footer {
+    --footer-ink: #000; /* all footer text is black */
+    --footer-text: var(--footer-ink);
+    --footer-gold: var(--vv-secondary);
+    --footer-line: rgb(0 0 0 / 0.35);
+    --footer-pad-x: var(--vv-gutter);
+    --footer-fade: clamp(3.5rem, 8vw, 7rem);
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, #f6f1e3 0%, #eef0e8 38%, #dfe7ea 72%, #d3dfe7 100%);
+    color: var(--footer-text);
+    isolation: isolate;
+  }
+
+  /* Columns ----------------------------------------------------------- */
+  .site-footer__inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.75rem;
+    padding: var(--vv-section-py) var(--footer-pad-x) calc(var(--footer-fade) * 0.6);
+  }
+
+  /* Right side: menu + contact side by side, note below (phones) */
+  .site-footer__aside {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.25rem 1.5rem;
+  }
+
+  .site-footer__note {
+    grid-column: 1 / -1;
+  }
+
+  .site-footer__title {
+    margin: 0;
+    color: var(--footer-ink);
+    font-family: var(--vv-font-display);
+    font-size: clamp(1.375rem, 4.5vw, 1.625rem); /* h4: smaller than the old h2 */
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+
+  .site-footer__lead {
+    margin: 1rem 0 0;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  /* Form -------------------------------------------------------------- */
+  .site-footer__form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem 1.25rem;
+    margin-top: 2.25rem;
+  }
+
+  .site-footer__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .site-footer__field--wide,
+  .site-footer__consent,
+  .site-footer__actions {
+    grid-column: 1 / -1;
+  }
+
+  .site-footer__label {
+    color: var(--footer-ink);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .site-footer__input {
+    width: 100%;
+    min-height: 2.25rem;
+    padding: 0.35rem 0;
+    border: 0;
+    border-bottom: 1px solid var(--footer-line);
+    border-radius: 0;
+    background: transparent;
+    color: var(--footer-ink);
+    font: inherit;
+    font-size: 1rem;
+    transition: border-color var(--vv-duration-fast) var(--vv-ease-out);
+  }
+
+  .site-footer__input:hover,
+  .site-footer__input:focus {
+    border-bottom-color: var(--footer-ink);
+  }
+
+  .site-footer__input:focus-visible {
+    outline: none;
+    box-shadow: 0 1px 0 0 var(--footer-ink);
+  }
+
+  .site-footer__input[aria-invalid="true"] {
+    border-bottom-color: #a1442f;
+  }
+
+  .site-footer__consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+
+  .site-footer__checkbox {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    margin: 0.1rem 0 0;
+    accent-color: var(--footer-ink);
+    cursor: pointer;
+  }
+
+  .site-footer__checkbox:focus-visible {
+    outline: 2px solid var(--footer-ink);
+    outline-offset: 2px;
+  }
+
+  .site-footer__consent.is-invalid {
+    color: #a1442f;
+  }
+
+  .site-footer__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem 1.5rem;
+  }
+
+  /* Plan Your Private Visit: 40px tall, at least 162px wide and as wide as
+     its label; colours and hover come from the shared .btn .btn--solid .btn--bubble */
+  .site-footer__submit {
+    min-width: 162px;
+    max-width: 100%;
+    height: 40px;
+    padding-inline: 1.5rem;
+    white-space: nowrap;
+  }
+
+  .site-footer__submit:focus-visible,
+  .site-footer__link:focus-visible,
+  .site-footer__gold-link:focus-visible {
+    outline-color: var(--footer-ink);
+  }
+
+  .site-footer__status {
+    margin: 0;
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .site-footer__status.is-error {
+    color: #a1442f;
+  }
+
+  /* Menu, contact links, note ----------------------------------------- */
+  .site-footer__links,
+  .site-footer__reach {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer__link,
+  .site-footer__gold-link {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+    transition: background-size var(--vv-duration-base) var(--vv-ease-out), color var(--vv-duration-fast) var(--vv-ease-out);
+  }
+
+  .site-footer__link {
+    color: var(--footer-ink);
+  }
+
+  .site-footer__gold-link {
+    color: var(--footer-ink);
+  }
+
+  .site-footer__link:hover,
+  .site-footer__gold-link:hover {
+    background-size: 100% 1px;
+  }
+
+  .site-footer__note {
+    font-size: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .site-footer__disclaimer,
+  .site-footer__direct {
+    margin: 0;
+  }
+
+  .site-footer__direct {
+    margin-top: 1.25rem;
+  }
+
+  .site-footer__phone,
+  .site-footer__email {
+    display: table;
+    margin-top: 0.35rem;
+    letter-spacing: 0.08em;
+  }
+
+  .site-footer__email {
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  /* Image scene ------------------------------------------------------- */
+  .site-footer__scene {
+    position: relative;
+    z-index: 1;
+    height: clamp(9rem, 40vw, 13rem);
+    margin-top: calc(var(--footer-fade) * -0.6);
+  }
+  .site-footer__media {
+    position: absolute;
+    inset: -12% 0 0;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 var(--footer-fade));
+    mask-image: linear-gradient(180deg, transparent 0, #000 var(--footer-fade));
+    will-change: transform;
+  }
+
+  .site-footer__img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: 50% 40%;
+    }
+
+  .site-footer__scene::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 45%;
+    background: linear-gradient(180deg, transparent, rgb(10 16 24 / 0.55));
+    pointer-events: none;
+  }
+
+  .site-footer__bottom {
+    position: absolute;
+    inset: auto var(--footer-pad-x) 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding-bottom: clamp(1.25rem, 3vw, 2.5rem);
+    color: var(--footer-ink);
+  }
+
+  .site-footer__copy {
+    margin: 0;
+    color: #fff; /* the copyright line is white (the rest of the footer stays black) */
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+  }
+
+  .site-footer__wordmark {
+    margin: 0;
+    font-family: var(--vv-font-display);
+    font-size: clamp(3.75rem, 21vw, 15rem);
+    font-weight: 300;
+    line-height: 0.8;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--footer-ink);
+    will-change: transform;
+  }
+
+  /* Tablet: form full width, three columns below ---------------------- */
+  @media (min-width: 48rem) {
+    .site-footer__join {
+      max-width: 36rem;
+    }
+
+    /* Right side: columns spread with space-between; the last one (note)
+       ends exactly at the container's right edge */
+    .site-footer__aside {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2.5rem;
+    }
+
+    .site-footer__aside > * {
+      flex: 0 1 auto;
+    }
+
+    .site-footer__note {
+      max-width: 18rem;
+      text-align: right;
+    }
+
+    .site-footer__phone,
+    .site-footer__email {
+      margin-left: auto;
+    }
+
+    .site-footer__title {
+      font-size: clamp(1.5rem, 2.4vw, 1.75rem);
+    }
+
+    .site-footer__scene {
+      height: clamp(11rem, 24vw, 18rem);
+    }
+    .site-footer__bottom {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .site-footer__copy {
+      padding-bottom: 0.4rem;
+    }
+
+    .site-footer__wordmark {
+      font-size: clamp(5rem, 15vw, 15rem);
+    }
+  }
+
+  /* Desktop: four columns across a centred block ---------------------- */
+  @media (min-width: 64rem) {
+    /* Two parts: form left, links and text right */
+    .site-footer__inner {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: clamp(2.5rem, 6vw, 6rem);
+      padding: var(--vv-section-py) var(--footer-pad-x) calc(var(--footer-fade) * 0.6);
+    }
+
+    .site-footer__join {
+      max-width: none;
+    }
+
+    .site-footer__title {
+      font-size: clamp(1.5rem, 1.6vw, 1.875rem);
+    }
+
+    .site-footer__lead {
+      font-size: 0.875rem;
+    }
+
+    .site-footer__aside {
+      padding-top: 0.5rem;
+    }
+
+    .site-footer__scene {
+      height: clamp(14rem, 21vw, 26rem);
+    }
+
+    .site-footer__bottom {
+      inset-inline: clamp(1.5rem, 4vw, 4rem);
+    }
+
+    .site-footer__wordmark {
+      font-size: clamp(7rem, 6.5vw, 16rem);
+    }
+  }
+
+}

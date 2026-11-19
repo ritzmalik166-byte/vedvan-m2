@@ -1,0 +1,1655 @@
+<!doctype html>
+<html lang="en" class="no-js" data-page="home">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>
+      Vedvan — Elemental Living | Forest-Centric Wellness Villas near Delhi NCR
+    </title>
+    <meta
+      name="description"
+      content="Vedvan is a 25-acre forest-centric wellness community inspired by the five elements of nature, 30 minutes from Delhi on the Meerut Expressway."
+    />
+    <meta name="theme-color" content="#10150f" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="assets/logo/logo-icn2.png"
+    />
+
+    <!-- Mark JS as available; reveal animated content if the animation stack hasn't started within 4s -->
+    <script>
+      document.documentElement.classList.replace("no-js", "js");
+      setTimeout(function () {
+        var root = document.documentElement;
+        if (!root.classList.contains("is-ready"))
+          root.classList.add("anim-failed");
+      }, 4000);
+      // Welcome gateway: once per browsing session; force it away if gateway.js never finishes
+      (function (root) {
+        var seen = false;
+        try {
+          seen = sessionStorage.getItem("vedvan:gateway") === "seen";
+        } catch (e) {}
+        root.classList.add(seen ? "gateway-off" : "gateway-on");
+        setTimeout(function () {
+          root.classList.remove("gateway-on");
+          root.classList.add("gateway-off");
+        }, 15000);
+      })(document.documentElement);
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+    <!-- Fonts: Marcellus (headings) + Roboto (paragraphs and the rest of the body) -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Marcellus&family=Roboto:wght@300;400;500;700&display=swap"
+    />
+
+    <link rel="stylesheet" href="styles/others/global.css" />
+    <link rel="stylesheet" href="styles/others/animations.css" />
+    <link rel="stylesheet" href="styles/others/gateway.css" />
+    <link rel="stylesheet" href="styles/home/hero.css" />
+    <link rel="stylesheet" href="styles/home/about.css" />
+    <link rel="stylesheet" href="styles/home/about2.css" />
+
+    <link rel="stylesheet" href="styles/home/story.css" />
+    <link rel="stylesheet" href="styles/home/location.css" />
+    <link rel="stylesheet" href="styles/home/highlights.css" />
+    <link rel="stylesheet" href="styles/home/wellness.css" />
+    <link rel="stylesheet" href="styles/home/peace.css" />
+    <link rel="stylesheet" href="styles/others/footer.css" />
+    <link rel="stylesheet" href="styles/others/visit.css" />
+    <link rel="stylesheet" href="styles/others/cursor.css" />
+
+    <!-- Three.js resolves through this map; it is only downloaded when a page has [data-three-scene] -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.min.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"
+        }
+      }
+    </script>
+
+    <!-- Tailwind CSS v4 browser build (development/prototyping only — see README notes in report) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3/dist/index.global.js"></script>
+    <style type="text/tailwindcss">
+      @theme inline {
+        --color-forest-950: var(--vv-forest-950);
+        --color-forest-900: var(--vv-forest-900);
+        --color-forest-800: var(--vv-forest-800);
+        --color-forest-700: var(--vv-forest-700);
+        --color-forest-500: var(--vv-forest-500);
+        --color-sage: var(--vv-sage);
+        --color-sand: var(--vv-sand);
+        --color-cream: var(--vv-cream);
+        --color-cream-muted: var(--vv-cream-muted);
+        --color-gold: var(--vv-gold);
+        --color-gold-light: var(--vv-gold-light);
+        --color-ink: var(--vv-ink);
+        --font-display: var(--vv-font-display);
+        --font-sans: var(--vv-font-sans);
+        --ease-vv-out: var(--vv-ease-out);
+        --ease-vv-in-out: var(--vv-ease-in-out);
+      }
+    </style>
+
+    <!-- Libraries (defer preserves order; all run before DOMContentLoaded) -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@barba/core@2.10.3/dist/barba.umd.js"
+    ></script>
+
+    <!-- Site scripts: core first, then modules that register with it -->
+    <script defer src="script/others/core.js"></script>
+    <script defer src="script/others/smooth-scroll.js"></script>
+    <script defer src="script/others/navigation.js"></script>
+    <script defer src="script/others/page-transitions.js"></script>
+    <script defer src="script/others/gateway.js"></script>
+    <script defer src="script/others/footer.js"></script>
+    <script defer src="script/others/visit.js"></script>
+    <script defer src="script/others/cursor.js"></script>
+    <script defer src="script/home/home.animation.js"></script>
+    <script defer src="script/home/home.script.js"></script>
+    <script defer src="script/home/about.data.js"></script>
+    <script defer src="script/home/about.js"></script>
+    <script defer src="script/home/about2.js"></script>
+    <script defer src="script/home/story.js"></script>
+    <script defer src="script/home/location.data.js"></script>
+    <script defer src="script/home/location.geometry.js"></script>
+    <script defer src="script/home/location.js"></script>
+    <script defer src="script/home/highlights.js"></script>
+    <script defer src="script/home/wellness.data.js"></script>
+    <script defer src="script/home/wellness.js"></script>
+    <script defer src="script/home/peace.js"></script>
+  </head>
+  <body>
+    <!-- Welcome gateway: first full page load of a browsing session only (script/others/gateway.js).
+         Swap the cloud or logo files by changing these src values; sizes and positions live in gateway.css. -->
+    <div class="gateway" data-gateway>
+      <div class="gateway__bg" data-gateway-bg></div>
+      <div class="gateway__cloud gateway__cloud--two" data-gateway-cloud>
+        <img
+          src="assets/others/cloude2.webp"
+          alt=""
+          width="1850"
+          height="1850"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </div>
+      <div class="gateway__cloud gateway__cloud--one" data-gateway-cloud>
+        <img
+          src="assets/others/cloude1.webp"
+          alt=""
+          width="1580"
+          height="1580"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </div>
+      <div class="gateway__center">
+        <img
+          class="gateway__logo"
+          src="assets/logo/new-yellow-logo.png"
+          alt="Vedvan — Elemental Living"
+          width="800"
+          height="255"
+          decoding="async"
+          fetchpriority="high"
+          data-gateway-logo
+        />
+        <p class="gateway__welcome" data-gateway-welcome>Welcome to Vedvan</p>
+        <div
+          class="gateway__progress"
+          role="progressbar"
+          aria-label="Loading Vedvan"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          data-gateway-progress
+        >
+          <span class="gateway__track"
+            ><span class="gateway__fill" data-gateway-fill></span
+          ></span>
+          <span class="gateway__percent" aria-hidden="true" data-gateway-percent
+            >0%</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" data-site-header>
+      <div class="nav-pill">
+        <div class="nav-pill__bar">
+          <button
+            class="nav-pill__menu"
+            type="button"
+            aria-expanded="false"
+            aria-controls="site-menu"
+            data-menu-toggle
+          >
+            <span class="nav-pill__burger" aria-hidden="true"></span>
+            <span class="nav-pill__menu-label">Menu</span>
+          </button>
+
+          <a class="nav-pill__logo" href="index.html">
+            <img
+              src="assets/logo/new-yellow-logo.png"
+              alt="Vedvan — Elemental Living, home"
+              width="600"
+              height="191"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </a>
+
+          <!-- Desktop (lg+) inline links: hidden at the top of the page, slide in
+               from the Enquire side once the page is scrolled (navigation.js) -->
+          <nav class="nav-pill__links" aria-label="Sections" data-nav-links>
+            <ul class="nav-pill__links-list">
+              <li><a class="link-roll nav-pill__link" href="#home"><span class="link-roll__text">Home</span><span class="link-roll__clone" aria-hidden="true">Home</span></a></li>
+              <li><a class="link-roll nav-pill__link" href="#about"><span class="link-roll__text">About</span><span class="link-roll__clone" aria-hidden="true">About</span></a></li>
+              <li><a class="link-roll nav-pill__link" href="#our-story"><span class="link-roll__text">Our Story</span><span class="link-roll__clone" aria-hidden="true">Our Story</span></a></li>
+              <li><a class="link-roll nav-pill__link" href="#location"><span class="link-roll__text">Location</span><span class="link-roll__clone" aria-hidden="true">Location</span></a></li>
+              <li><a class="link-roll nav-pill__link" href="#highlights"><span class="link-roll__text">Highlights</span><span class="link-roll__clone" aria-hidden="true">Highlights</span></a></li>
+              <li><a class="link-roll nav-pill__link" href="#wellness"><span class="link-roll__text">Experience</span><span class="link-roll__clone" aria-hidden="true">Experience</span></a></li>
+            </ul>
+          </nav>
+
+          <a
+            class="btn btn--solid btn--bubble nav-pill__cta"
+            data-visit-open
+            href="mailto:connect@thevedvan.com?subject=Vedvan%20enquiry"
+            > Enquire Now</a
+          >
+        </div>
+
+        <nav
+          class="site-menu"
+          id="site-menu"
+          aria-label="Primary"
+          data-menu
+          inert
+        >
+          <div class="site-menu__inner">
+            <ul class="site-menu__list">
+              <li>
+                <a class="link-roll site-menu__link" href="#home">
+                  <span class="link-roll__text">Home</span>
+                  <span class="link-roll__clone" aria-hidden="true">Home</span>
+                </a>
+              </li>
+              <li>
+                <a class="link-roll site-menu__link" href="#about">
+                  <span class="link-roll__text">About</span>
+                  <span class="link-roll__clone" aria-hidden="true">About</span>
+                </a>
+              </li>
+              <li>
+                <a class="link-roll site-menu__link" href="#our-story">
+                  <span class="link-roll__text">Our Story</span>
+                  <span class="link-roll__clone" aria-hidden="true">Our Story</span>
+                </a>
+              </li>
+              <li>
+                <a class="link-roll site-menu__link" href="#location">
+                  <span class="link-roll__text">Location</span>
+                  <span class="link-roll__clone" aria-hidden="true">Location</span>
+                </a>
+              </li>
+              <li>
+                <a class="link-roll site-menu__link" href="#highlights">
+                  <span class="link-roll__text">Highlights</span>
+                  <span class="link-roll__clone" aria-hidden="true">Highlights</span>
+                </a>
+              </li>
+              <li>
+                <a class="link-roll site-menu__link" href="#wellness">
+                  <span class="link-roll__text">Experience</span>
+                  <span class="link-roll__clone" aria-hidden="true">Experience</span>
+                </a>
+              </li>
+            </ul>
+            <div class="site-menu__contact">
+              <a href="tel:+919516695266">+91 95166 95266</a>
+              <a href="mailto:connect@thevedvan.com">connect@thevedvan.com</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <div data-barba="wrapper">
+      <main
+        id="main"
+        tabindex="-1"
+        data-barba="container"
+        data-barba-namespace="home"
+      >
+        <!-- Hero Section -->
+
+        <section class="hero" id="home" aria-labelledby="hero-title" data-hero>
+          <div class="hero__media">
+            <video
+              class="hero__video"
+              src="https://contenaissance.blob.core.windows.net/ct-assets/VEDVAN_Walkthrough_New_Nov_17_Logo_update_For_web_Resized.mp4"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+              disablepictureinpicture
+              aria-hidden="true"
+              data-hero-video
+            ></video>
+
+            <div class="hero__scrim" aria-hidden="true"></div>
+          </div>
+
+          <!-- Keep your existing sound controller button here -->
+          <button
+            type="button"
+            data-hero-sound
+            aria-label="Unmute video"
+            aria-pressed="false"
+            class="fixed bottom-6 right-5 z-[9999] flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-black/40 text-white shadow-lg backdrop-blur-xl transition-colors duration-300 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:bottom-8 sm:right-8"
+          >
+            <!-- Muted Icon -->
+            <svg
+              data-sound-muted-icon
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-5 w-5"
+              aria-hidden="true"
+            >
+              <path d="M11 5 6 9H2v6h4l5 4V5Z" />
+              <line x1="23" y1="9" x2="17" y2="15" />
+              <line x1="17" y1="9" x2="23" y2="15" />
+            </svg>
+
+            <!-- Sound On Icon -->
+            <svg
+              data-sound-on-icon
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="hidden h-5 w-5"
+              aria-hidden="true"
+            >
+              <path d="M11 5 6 9H2v6h4l5 4V5Z" />
+              <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+              <path d="M19 5a10 10 0 0 1 0 14" />
+            </svg>
+          </button>
+        </section>
+
+     <section class="about2" id="about" aria-labelledby="about2-title" data-about2>
+
+      <!-- Slide 1 · What is Vedvan -->
+      <div class="about2__intro">
+        <div class="about2__orb about2__orb--a" data-a2-orb aria-hidden="true"></div>
+        <div class="about2__orb about2__orb--b" data-a2-orb aria-hidden="true"></div>
+    
+        <article class="a2-panel" aria-label="What Is Vedvan" data-a2-panel> 
+          <div class="a2-panel__text">
+            <p class="a2-eyebrow" data-a2-fade><span class="a2-eyebrow__rule" aria-hidden="true" data-a2-rule></span>About Vedvan</p>
+            <h2 class="a2-title" id="about2-title" data-a2-heading>A Life Rooted in Nature.</h2> 
+            <p class="a2-text" data-a2-fade>Somewhere along the way, modern living moved us further from the things that naturally make us feel alive.</p>
+            <p class="a2-text" data-a2-fade>Vedvan is an invitation to rediscover that connection. Inspired by nature and guided by the philosophy of preventive wellness, it envisions a way of life where balance, mindfulness and wellbeing become second nature.</p>
+            <p class="a2-statement" data-a2-fade>Not simply a different place to live. A different way to experience life.</p>
+          </div>
+          <figure class="a2-img" data-a2-img data-depth="1"><span class="art-tag" aria-hidden="true">*Artistic Image</span>
+            <img src="assets/updates2/header desktop (1) (1).jpg" alt="Sunlit gateway framed by palms at Vedvan" width="1600" height="1200" loading="lazy" decoding="async">
+          </figure>
+        </article>
+      </div>
+    
+      <!-- Slides 2 & 3 · Fixed full-screen backdrop with sliding cards (no pin) -->
+      <div class="about2__stage" id="our-story" data-a2-stage>
+        <div class="about2__bgwrap" data-a2-bgwrap aria-hidden="true"><span class="art-tag" aria-hidden="true">*Artistic Image</span>
+          <div class="about2__bg" data-a2-bg style="background-image:url('assets/updates2/bbg.jpg')"></div>
+          <div class="about2__shade"></div>
+        </div>
+    
+        <div class="a2-scene a2-scene--vision" data-a2-scene>
+        <article class="a2-card a2-card--vision" aria-label="Our Vision" data-a2-card>
+          <div class="a2-card__body">
+            <p class="a2-card__title" data-a2-heading>Our Vision</p>
+            <p class="a2-card__statement" data-a2-heading>To Bring Living Back to Its Natural Essence.</p>
+            <p class="a2-card__text" data-a2-fade>To reimagine modern living through a deeper connection with nature, creating a future where wellness is not an occasional pursuit but an intrinsic part of everyday life.</p>
+          </div>
+          <figure class="a2-card__fig" data-a2-img><span class="art-tag" aria-hidden="true">*Artistic Image</span>
+            <img src="assets/updates2/Our Vision Website image.jpg" alt="Open green landscape at golden hour" width="511" height="219" loading="lazy" decoding="async">
+          </figure>
+        </article>
+        </div>
+    
+        <div class="a2-scene a2-scene--mission" data-a2-scene>
+        <article class="a2-card a2-card--mission" aria-label="Our Mission" data-a2-card>
+          <div class="a2-card__body">
+            <p class="a2-card__title" data-a2-heading>Our Mission</p>
+            <p class="a2-card__statement" data-a2-heading>To Make Wellbeing a Way of Life.</p>
+            <p class="a2-card__text" data-a2-fade>To bring together the wisdom of nature, the principles of preventive wellness and thoughtful design, inspiring environments that nurture physical, mental and emotional wellbeing.</p>
+          </div>
+          <figure class="a2-card__fig" data-a2-img><span class="art-tag" aria-hidden="true">*Artistic Image</span>
+            <img src="assets/updates2/Our Mission Website image.jpg" alt="Architecture blending with greenery" width="511" height="219" loading="lazy" decoding="async">
+          </figure>
+        </article>
+        </div>
+      </div>
+    </section>
+
+
+        <!-- Section 2: pinned scroll story. Each <article data-story-slide> is one slide; story.js reads only the data-story-* hooks,
+            so slides are added by appending articles here. Copy is edited directly in this markup. -->
+
+            <section
+            class="story"
+            id="story"
+            aria-label="The Vedvan story"
+            data-story
+            data-story-total="7"
+          >
+            <div class="story__bg" aria-hidden="true">
+              <div class="story__depth" data-story-depth></div>
+              <div class="story__tint" data-story-tint></div>
+              <div class="story__grain"></div>
+            </div>
+  
+            <div class="story__viewport">
+              <!-- Slide 01: Elemental Living -->
+              <article
+                class="story__slide story__slide--split"
+                aria-labelledby="story-title-1"
+                data-story-slide
+              >
+                <div class="story__split">
+                  <div class="story__headblock">
+                    <p class="story__eyebrow" data-story-eyebrow>
+                      <svg
+                        class="story__lotus"
+                        aria-hidden="true"
+                        focusable="false"
+                       data-element-icon="lotus"></svg>Elemental Living
+                    </p>
+                    <h2
+                      class="story__display"
+                      id="story-title-1"
+                      data-story-title
+                    >
+                      <span class="story__line">Five Elements.</span>
+                      <span class="story__line">One Way of Life.</span>
+                    </h2>
+                  </div>
+                  <div class="story__aside">
+                    <p class="story__text" data-story-text>
+                      Everything in nature exists in harmony with five fundamental
+                      elements: Earth, Water, Fire, Air and Space.
+                    </p>
+                    <p class="story__text" data-story-text>
+                      At Vedvan, these elements form the foundation of our
+                      philosophy, inspiring a more conscious relationship with our
+                      surroundings and ourselves.
+                    </p>
+                    <p class="story__text story__text--accent" data-story-text>
+                      Because living well begins with reconnecting to what is
+                      essential.
+                    </p>
+                    <ul class="story__elements">
+                      <li class="story__el" data-story-extra>
+                        <span class="story__el-icon"
+                          ><svg aria-hidden="true" focusable="false" data-element-icon="earth"></svg></span
+                        ><span>Earth</span>
+                      </li>
+                      <li class="story__el" data-story-extra>
+                        <span class="story__el-icon"
+                          ><svg aria-hidden="true" focusable="false" data-element-icon="water"></svg></span
+                        ><span>Water</span>
+                      </li>
+                      <li class="story__el" data-story-extra>
+                        <span class="story__el-icon"
+                          ><svg aria-hidden="true" focusable="false" data-element-icon="fire"></svg></span
+                        ><span>Fire</span>
+                      </li>
+                      <li class="story__el" data-story-extra>
+                        <span class="story__el-icon"
+                          ><svg aria-hidden="true" focusable="false" data-element-icon="air"></svg></span
+                        ><span>Air</span>
+                      </li>
+                      <li class="story__el" data-story-extra>
+                        <span class="story__el-icon"
+                          ><svg aria-hidden="true" focusable="false" data-element-icon="space"></svg></span
+                        ><span>Space</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </article>
+  
+              <!-- Slides 02–06: zone slides (copy left, shared image frame right).
+                          data-story-for / data-story-caption / data-story-goto = slide number. -->
+  
+              <!-- Slide 02: Earth -->
+              <article
+                class="story__slide story__slide--zone"
+                aria-labelledby="story-title-2"
+                data-story-slide
+                data-story-zone
+                data-story-tint="#8a6a3b"
+              >
+                <div class="story__copy" data-story-copy>
+                  <p class="story__eyebrow" data-story-eyebrow>
+                    <svg
+                      class="story__lotus"
+                      aria-hidden="true"
+                      focusable="false"
+                     data-element-icon="earth"></svg>Zone 01 &middot; (Prithvi)
+                  </p>
+                  <h2
+                    class="story__heading"
+                    id="story-title-2"
+                    data-story-title
+                    data-story-split="chars"
+                  >
+                    Earth
+                  </h2>
+                  <p class="story__tagline" data-story-tagline>
+                    The Art of Being Grounded.
+                  </p>
+                  <span
+                    class="story__divider"
+                    aria-hidden="true"
+                    data-story-eyebrow
+                    ><svg focusable="false"><use href="#story-icon-leaf" /></svg></span>
+                  <p class="story__lead" data-story-text>
+                    A connection to the soil, greenery and natural surroundings
+                    that brings us closer to our roots.
+                  </p>
+                  <a class="btn btn--solid btn--bubble story__cta" href="contact.html" data-story-cta data-visit-open data-visit-type="Site Visit"
+                    >Explore Earth Zone</a
+                  >
+                </div>
+              </article>
+  
+              <!-- Slide 03: Water -->
+              <article
+                class="story__slide story__slide--zone"
+                aria-labelledby="story-title-3"
+                data-story-slide
+                data-story-zone
+                data-story-tint="#2f8a9a"
+              >
+                <div class="story__copy" data-story-copy>
+                  <p class="story__eyebrow" data-story-eyebrow>
+                    <svg
+                      class="story__lotus"
+                      aria-hidden="true"
+                      focusable="false"
+                     data-element-icon="water"></svg>Zone 02 &middot; (Jal)
+                  </p>
+                  <h2
+                    class="story__heading"
+                    id="story-title-3"
+                    data-story-title
+                    data-story-split="chars"
+                  >
+                    Water
+                  </h2>
+                  <p class="story__tagline" data-story-tagline>
+                    The Rhythm of Renewal.
+                  </p>
+                  <span
+                    class="story__divider"
+                    aria-hidden="true"
+                    data-story-eyebrow
+                    ><svg focusable="false"><use href="#story-icon-leaf" /></svg  ></span>
+                  <p class="story__lead" data-story-text>
+                    Inspired by the fluidity of water, embracing restoration,
+                    balance and the beauty of slowing down.
+                  </p>
+                  <a class="btn btn--solid btn--bubble story__cta" href="contact.html" data-story-cta data-visit-open data-visit-type="Site Visit"
+                    >Explore Water Zone</a
+                  >
+                </div>
+              </article>
+  
+              <!-- Slide 04: Fire -->
+              <article
+                class="story__slide story__slide--zone"
+                aria-labelledby="story-title-4"
+                data-story-slide
+                data-story-zone
+                data-story-tint="#c4622d"
+              >
+                <div class="story__copy" data-story-copy>
+                  <p class="story__eyebrow" data-story-eyebrow>
+                    <svg
+                      class="story__lotus"
+                      aria-hidden="true"
+                      focusable="false"
+                     data-element-icon="fire"></svg>Zone 03 &middot; (Agni)
+                  </p>
+                  <h2
+                    class="story__heading"
+                    id="story-title-4"
+                    data-story-title
+                    data-story-split="chars"
+                  >
+                    Fire
+                  </h2>
+                  <p class="story__tagline" data-story-tagline>
+                    The Energy Within.
+                  </p>
+                  <span
+                    class="story__divider"
+                    aria-hidden="true"
+                    data-story-eyebrow
+                    ><svg focusable="false"><use href="#story-icon-leaf" /></svg  ></span>
+                  <p class="story__lead" data-story-text>
+                    A celebration of vitality, movement and the inner energy that
+                    inspires purposeful living.
+                  </p>
+                  <a class="btn btn--solid btn--bubble story__cta" href="contact.html" data-story-cta data-visit-open data-visit-type="Site Visit"
+                    >Explore Fire Zone</a
+                  >
+                </div>
+              </article>
+  
+              <!-- Slide 05: Air -->
+              <article
+                class="story__slide story__slide--zone"
+                aria-labelledby="story-title-5"
+                data-story-slide
+                data-story-zone
+                data-story-tint="#8fb58c"
+              >
+                <div class="story__copy" data-story-copy>
+                  <p class="story__eyebrow" data-story-eyebrow>
+                    <svg
+                      class="story__lotus"
+                      aria-hidden="true"
+                      focusable="false"
+                     data-element-icon="air"></svg>Zone 04 &middot; (Vayu)
+                  </p>
+                  <h2
+                    class="story__heading"
+                    id="story-title-5"
+                    data-story-title
+                    data-story-split="chars"
+                  >
+                    Air
+                  </h2>
+                  <p class="story__tagline" data-story-tagline>
+                    The Freedom to Breathe.
+                  </p>
+                  <span
+                    class="story__divider"
+                    aria-hidden="true"
+                    data-story-eyebrow
+                    ><svg focusable="false"><use href="#story-icon-leaf" /></svg></span>
+                  <p class="story__lead" data-story-text>
+                    A reminder of the importance of openness, fresh surroundings
+                    and moments that allow the mind to unwind.
+                  </p>
+                  <a class="btn btn--solid btn--bubble story__cta" href="contact.html" data-story-cta data-visit-open data-visit-type="Site Visit"
+                    >Explore Air Zone</a
+                  >
+                </div>
+              </article>
+  
+              <!-- Slide 06: Space -->
+              <article
+                class="story__slide story__slide--zone"
+                aria-labelledby="story-title-6"
+                data-story-slide
+                data-story-zone
+                data-story-tint="#5b5a8c"
+              >
+                <div class="story__copy" data-story-copy>
+                  <p class="story__eyebrow" data-story-eyebrow>
+                    <svg
+                      class="story__lotus"
+                      aria-hidden="true"
+                      focusable="false"
+                     data-element-icon="space"></svg>Zone 05 &middot; (Akash)
+                  </p>
+                  <h2
+                    class="story__heading"
+                    id="story-title-6"
+                    data-story-title
+                    data-story-split="chars"
+                  >
+                    Space
+                  </h2>
+                  <p class="story__tagline" data-story-tagline>
+                    The Luxury of Simply Being.
+                  </p>
+                  <span
+                    class="story__divider"
+                    aria-hidden="true"
+                    data-story-eyebrow
+                    ><svg focusable="false"><use href="#story-icon-leaf" /></svg></span>
+                  <p class="story__lead" data-story-text>
+                    The freedom to pause, reflect and experience life without the
+                    constant rush of the outside world.
+                  </p>
+                  <a class="btn btn--solid btn--bubble story__cta" href="contact.html" data-story-cta data-visit-open data-visit-type="Site Visit"
+                    >Explore Space Zone</a
+                  >
+                </div>
+              </article>
+  
+              <!-- Slide 07: The Wellness Philosophy (now with an image) -->
+              <article
+                class="story__slide story__slide--split story__slide--media"
+                aria-labelledby="story-title-7"
+                data-story-slide
+              >
+                <div class="story__split story__split--media">
+                  <div class="story__col">
+                    <div class="story__headblock">
+                      <p class="story__eyebrow" data-story-eyebrow>
+                        <svg
+                          class="story__lotus"
+                          aria-hidden="true"
+                          focusable="false"
+                         data-element-icon="lotus"></svg>The Wellness Philosophy
+                      </p>
+                      <h2
+                        class="story__display"
+                        id="story-title-7"
+                        data-story-title
+                      >
+                        <span class="story__line">Wellness Begins</span>
+                        <span class="story__line">Before You Need It.</span>
+                      </h2>
+                    </div>
+                    <div class="story__aside">
+                      <p class="story__text" data-story-text>
+                        Wellbeing is not merely about addressing discomfort. It
+                        is about cultivating habits and surroundings that support
+                        a healthier, more balanced life.
+                      </p>
+                      <p class="story__text" data-story-text>
+                        Rooted in the philosophy of preventive living, Vedvan
+                        draws inspiration from ancient wellness traditions and
+                        contemporary approaches to mindful living.
+                      </p>
+                      <blockquote class="story__quote" data-story-extra>
+                        The way we live today shapes how we feel tomorrow.
+                      </blockquote>
+                    </div>
+                  </div>
+                  <figure class="story__media" data-story-media><span class="art-tag" aria-hidden="true">*Artistic Image</span>
+                    <img
+                      src="assets/updates2/Philosophy Website image.jpg"
+                      alt="Quiet yoga pavilion surrounded by trees"
+                      width="1000"
+                      height="1250"
+                      decoding="async"
+                    />
+                  </figure>
+                </div>
+              </article>
+            </div>
+  
+            <!-- Shared image frame for the five zone slides -->
+            <div class="story__stage" data-story-stage>
+              <div class="story__rig" data-story-rig>
+                <figure class="story__frame" data-story-frame><span class="art-tag" aria-hidden="true">*Artistic Image</span>
+                  <img
+                    class="story__img"
+                    data-story-for="2"
+                    src="assets/updates2/earthD.jpg"
+                    alt="Timber and stone house set on a lawn"
+                    width="1000"
+                    height="1316"
+                    decoding="async"
+                  />
+                  <img
+                    class="story__img"
+                    data-story-for="3"
+                    src="assets/updates2/waterD.jpg"
+                    alt="Modern villa beside a still pool"
+                    width="1000"
+                    height="1316"
+                    decoding="async"
+                  />
+                  <img
+                    class="story__img"
+                    data-story-for="4"
+                    src="assets/updates/Vedvan-Fire-Dekstop-818-797px.jpg"
+                    alt="Couple sharing warm drinks by a garden fire pit beneath a starry sky, with white villas behind"
+                    width="818"
+                    height="797"
+                    decoding="async"
+                  />
+                  <img
+                    class="story__img"
+                    data-story-for="5"
+                    src="assets/updates2/airD.jpg"
+                    alt="Open timber veranda beside a pool"
+                    width="1000"
+                    height="1316"
+                    decoding="async"
+                  />
+                  <img
+                    class="story__img"
+                    data-story-for="6"
+                    src="assets/updates/Vedvan-Space-Dekstop-818-797px.jpg"
+                    alt="Couple relaxing on a lawn at dusk beneath an open sky, with warm-lit villas behind"
+                    width="818"
+                    height="797"
+                    decoding="async"
+                  />
+                  <figcaption
+                    class="story__caption"
+                    data-story-caption="2"
+                    aria-hidden="true"
+                  >
+                    <span class="story__caption-no">01<i>/05</i></span
+                    ><span class="story__caption-text"
+                      ><strong>Earth Zone</strong><em>Prithvi</em></span
+                    >
+                  </figcaption>
+                  <figcaption
+                    class="story__caption"
+                    data-story-caption="3"
+                    aria-hidden="true"
+                  >
+                    <span class="story__caption-no">02<i>/05</i></span
+                    ><span class="story__caption-text"
+                      ><strong>Water Zone</strong><em>Jal</em></span
+                    >
+                  </figcaption>
+                  <figcaption
+                    class="story__caption"
+                    data-story-caption="4"
+                    aria-hidden="true"
+                  >
+                    <span class="story__caption-no">03<i>/05</i></span
+                    ><span class="story__caption-text"
+                      ><strong>Fire Zone</strong><em>Agni</em></span
+                    >
+                  </figcaption>
+                  <figcaption
+                    class="story__caption"
+                    data-story-caption="5"
+                    aria-hidden="true"
+                  >
+                    <span class="story__caption-no">04<i>/05</i></span
+                    ><span class="story__caption-text"
+                      ><strong>Air Zone</strong><em>Vayu</em></span
+                    >
+                  </figcaption>
+                  <figcaption
+                    class="story__caption"
+                    data-story-caption="6"
+                    aria-hidden="true"
+                  >
+                    <span class="story__caption-no">05<i>/05</i></span
+                    ><span class="story__caption-text"
+                      ><strong>Space Zone</strong><em>Akash</em></span
+                    >
+                  </figcaption>
+                </figure>
+              </div>
+            </div>
+  
+            <!-- Element navigator: visible while the zone slides are on screen -->
+            <nav class="story__rail" aria-label="Elements" data-story-rail>
+              <button
+                type="button"
+                class="story__rail-btn"
+                data-story-goto="2"
+                aria-label="Go to Earth zone"
+              >
+                <svg aria-hidden="true" focusable="false" data-element-icon="earth"></svg><span>Earth</span>
+              </button>
+              <button
+                type="button"
+                class="story__rail-btn"
+                data-story-goto="3"
+                aria-label="Go to Water zone"
+              >
+                <svg aria-hidden="true" focusable="false" data-element-icon="water"></svg><span>Water</span>
+              </button>
+              <button
+                type="button"
+                class="story__rail-btn"
+                data-story-goto="4"
+                aria-label="Go to Fire zone"
+              >
+                <svg aria-hidden="true" focusable="false" data-element-icon="fire"></svg><span>Fire</span>
+              </button>
+              <button
+                type="button"
+                class="story__rail-btn"
+                data-story-goto="5"
+                aria-label="Go to Air zone"
+              >
+                <svg aria-hidden="true" focusable="false" data-element-icon="air"></svg><span>Air</span>
+              </button>
+              <button
+                type="button"
+                class="story__rail-btn"
+                data-story-goto="6"
+                aria-label="Go to Space zone"
+              >
+                <svg aria-hidden="true" focusable="false" data-element-icon="space"></svg><span>Space</span>
+              </button>
+            </nav>
+  
+            <!-- Frame mask (objectBoundingBox units) + shared line icons -->
+            <svg
+              class="story__defs"
+              width="0"
+              height="0"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <defs>
+                <clipPath id="story-mask-a" clipPathUnits="objectBoundingBox">
+                  <path
+                    d="M0.1,0 L0.96,0 Q1,0 1,0.04 L1,0.96 Q1,1 0.96,1 L0.04,1 Q0,1 0,0.96 L0,0.16 C0,0.07 0.04,0.02 0.1,0 Z"
+                  />
+                </clipPath>
+                <symbol id="story-icon-leaf" viewBox="0 0 48 48">
+                  <path
+                    d="M24 34c-9 0-13-8-12-17 8 1 13 7 12 17zM24 34c9 0 13-8 12-17-8 1-13 7-12 17z"
+                  />
+                  <path d="M24 34l-7-11M24 34l7-11" />
+                </symbol>
+              </defs>
+            </svg>
+  
+            <!-- Slide progress -->
+            <div class="story__progress" aria-hidden="true" data-story-progress>
+              <span class="story__progress-current" data-story-progress-current>01</span
+              >
+              <span class="story__progress-track"
+                ><span
+                  class="story__progress-fill"
+                  data-story-progress-fill
+                ></span
+              ></span>
+              <span
+                class="story__progress-total"
+                data-story-progress-total
+                hidden
+              ></span>
+            </div>
+          </section>
+
+        <!-- Section 3: location & connectivity. Destinations, travel times, descriptions, images and marker positions
+                 live in script/home/location.data.js; location.js builds the list and markers from it. -->
+
+        <section
+          class="location"
+          id="location"
+          aria-labelledby="location-title"
+          data-location
+        >
+          <div class="location__intro">
+            <p class="location__eyebrow">Location &amp; Connectivity</p>
+            <h2 class="location__title" id="location-title">
+              Everything Within Reach
+            </h2>
+          </div>
+
+          <ul
+            class="location__list"
+            aria-label="Nearby destinations"
+            data-location-list
+          ></ul>
+
+          <div
+            class="location__map"
+            role="region"
+            aria-label="Schematic map of Vedvan and nearby destinations, not to scale"
+            data-location-map
+          >
+            <div class="location__stage" data-location-stage>
+              <div class="location__canvas" data-location-canvas>
+                <svg
+                  class="location__svg"
+                  aria-hidden="true"
+                  focusable="false"
+                  data-location-svg
+                ></svg>
+              </div>
+              <div class="location__site" aria-hidden="true" data-location-site>
+                <span class="location__site-badge"
+                  ><span class="location__site-icon"></span></span>
+              </div>
+              <div class="location__markers" data-location-markers></div>
+            </div>
+            <figure class="location__preview" data-location-preview>
+              <div class="location__preview-frame" data-location-preview-frame><span class="art-tag" aria-hidden="true">*Artistic Image</span>
+                <img
+                  class="location__preview-img"
+                  alt=""
+                  width="800"
+                  height="600"
+                  decoding="async"
+                  fetchpriority="low"
+                  data-location-preview-img
+                />
+              </div>
+            </figure>
+          </div>
+
+          <!-- <div
+            class="location__details"
+            id="location-details"
+            aria-live="polite"
+            data-location-details
+          >
+            <div class="location__details-inner" data-location-details-inner>
+              <h3 class="location__details-name" data-location-name></h3>
+              <p class="location__details-time">
+                <svg
+                  class="location__icon"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="8.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.3"
+                  />
+                  <path
+                    d="M12 7.5V12l3 2"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.3"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                <span data-location-time></span>
+                <span class="location__details-label">travel time</span>
+              </p>
+              <p class="location__details-text" data-location-description></p>
+            </div>
+          </div> -->
+        </section>
+
+        <!-- Section 4: key highlights. The image is a temporary placeholder (assets/home/highlights/) —
+                 replace src/alt with the final project image. highlights.js adds the scroll parallax. -->
+
+        <section
+          class="highlights"
+          id="highlights"
+          aria-labelledby="highlights-title"
+          data-highlights
+        >
+          <div class="highlights__media" data-highlights-media><span class="art-tag" aria-hidden="true">*Artistic Image</span>
+            <div class="highlights__media-inner" data-highlights-parallax>
+              <img
+                class="highlights__img"
+                src="assets/update3/key_heighlights.jpg"
+                alt="Placeholder: timber house among tall trees in soft morning light"
+                width="1400"
+                height="1400"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+
+          <div class="highlights__content">
+            <h2
+              class="highlights__title"
+              id="highlights-title"
+              data-highlights-title
+            >
+            Nature, By the Numbers
+
+            </h2>
+            <ul class="highlights__list">
+              <li class="highlights__item" data-highlights-item>
+                <p class="highlights__stat" data-highlights-stat>25 <span class="highlights__unit">Acres</span></p>
+                <h3 class="highlights__label">NATURE-LED COMMUNITY</h3>
+              </li>
+              <li class="highlights__item" data-highlights-item>
+                <p class="highlights__stat" data-highlights-stat>85%</p>
+                <h3 class="highlights__label">Open Green Spaces</h3>
+              </li>
+              <li class="highlights__item" data-highlights-item>
+                <p class="highlights__stat" data-highlights-stat>3 <span class="highlights__unit">Acres</span></p>
+                <h3 class="highlights__label">Wellness Pavilion</h3>
+              </li>
+              <li class="highlights__item" data-highlights-item>
+                <p class="highlights__stat" data-highlights-stat>10,000</p>
+                <h3 class="highlights__label">Oxygen-Producing Plants</h3>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Section 5: wellness stacking cards. Names, descriptions and images live in
+                 script/home/wellness.data.js; wellness.js builds the list, details and cards from it. -->
+
+        <!-- Section 5: Explore the VEDVAN Experience (stacking cards). Title, subtitle, names,
+     descriptions and images live in script/home/wellness.data.js; wellness.js builds
+     the list, details and cards from it. -->
+        <section
+          class="wellness"
+          id="wellness"
+          aria-labelledby="wellness-title"
+          data-wellness
+        >
+          <div class="wellness__copy">
+            <header class="wellness__intro">
+              <p class="wellness__eyebrow" data-wellness-eyebrow></p>
+              <h2
+                class="wellness__title"
+                id="wellness-title"
+                data-wellness-title
+              ></h2>
+              <p class="wellness__subtitle" data-wellness-subtitle></p>
+            </header>
+            <ol
+              class="wellness__list"
+              aria-label="Vedvan experiences"
+              data-wellness-list
+            ></ol>
+            <div
+              class="wellness__details"
+              aria-live="polite"
+              data-wellness-details
+            >
+              <div class="wellness__details-live">
+                <p class="wellness__details-name" data-wellness-name></p>
+                <p class="wellness__details-text" data-wellness-text></p>
+              </div>
+            </div>
+          </div>
+          <div class="wellness__stack" data-wellness-stack></div>
+        </section>
+
+        <!-- Section 6: peace. The three images are placeholders (assets/home/peace/) — replace each src/alt
+                 directly; shapes, positions and scroll movement come from peace.css / peace.js. -->
+
+        <!-- ======================================================================
+     SECTION 9 — FINAL CTA
+     ====================================================================== -->
+        <!-- ======================================================================
+     SECTION 8 — THE VEDVAN PROMISE
+     Desktop: the stage pins and each "freedom" takes the screen in turn
+     while its photograph wipes in. Copy and images are edited here.
+     Each [data-promise-freedom] pairs with the [data-promise-shot] of the
+     same position, so keep both lists the same length.
+     ====================================================================== -->
+        <section
+          class="promise"
+          id="promise"
+          aria-labelledby="promise-title"
+          data-promise
+        >
+          <div class="promise__bg" aria-hidden="true" data-promise-bg>
+            <span class="promise__grain"></span>
+          </div>
+
+          <div class="promise__inner">
+            <header class="promise__head" data-promise-head>
+              <p class="promise__eyebrow" data-promise-eyebrow>
+                The Vedvan Promise
+              </p>
+              <h2 class="promise__title" id="promise-title">
+                <span class="promise__line"
+                  ><span class="promise__line-inner" data-promise-line
+                    >A Life That Gives</span
+                  ></span
+                >
+                <span class="promise__line promise__line--accent"
+                  ><span class="promise__line-inner" data-promise-line
+                    >More Back to You</span
+                  ></span
+                >
+              </h2>
+            </header>
+
+            <div class="promise__stage" data-promise-stage>
+              <div class="promise__text">
+                <ol class="promise__freedoms">
+                  <li class="promise__freedom" data-promise-freedom>
+                    <span
+                      class="promise__rule"
+                      aria-hidden="true"
+                      data-promise-rule
+                    ></span>
+                    <span class="promise__num" aria-hidden="true">01</span>
+                    <div class="promise__freedom-body">
+                      <h3 class="promise__freedom-text" data-promise-freedom-text>
+                        More Nature in Every Day
+                      </h3>
+                      <p class="promise__freedom-desc" data-promise-freedom-desc>
+                        Landscaped pathways, green surroundings and open spaces bring the outdoors closer to everyday life.
+                      </p>
+                    </div>
+                  </li>
+                  <li class="promise__freedom" data-promise-freedom>
+                    <span
+                      class="promise__rule"
+                      aria-hidden="true"
+                      data-promise-rule
+                    ></span>
+                    <span class="promise__num" aria-hidden="true">02</span>
+                    <div class="promise__freedom-body">
+                      <h3 class="promise__freedom-text" data-promise-freedom-text>
+                        More Time for What Matters
+                      </h3>
+                      <p class="promise__freedom-desc" data-promise-freedom-desc>
+                        Yoga, forest bathing and restorative wellness experiences make slowing down a natural part of living.
+                      </p>
+                    </div>
+                  </li>
+                  <li class="promise__freedom" data-promise-freedom>
+                    <span
+                      class="promise__rule"
+                      aria-hidden="true"
+                      data-promise-rule
+                    ></span>
+                    <span class="promise__num" aria-hidden="true">03</span>
+                    <div class="promise__freedom-body">
+                      <h3 class="promise__freedom-text" data-promise-freedom-text>
+                        More Moments Worth Sharing
+                      </h3>
+                      <p class="promise__freedom-desc" data-promise-freedom-desc>
+                        Vehicle-free surroundings and thoughtfully planned community spaces make room for connections across generations.
+                      </p>
+                    </div>
+                  </li>
+                  <li class="promise__freedom" data-promise-freedom>
+                    <span
+                      class="promise__rule"
+                      aria-hidden="true"
+                      data-promise-rule
+                    ></span>
+                    <span class="promise__num" aria-hidden="true">04</span>
+                    <div class="promise__freedom-body">
+                      <h3 class="promise__freedom-text" data-promise-freedom-text>
+                        More Meaning in the Everyday
+                      </h3>
+                      <p class="promise__freedom-desc" data-promise-freedom-desc>
+                        Inspired by the five elements, Vedvan brings nature, conscious choices and preventive wellness into a more balanced way of life.
+                      </p>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+
+              <div class="promise__viewer" data-promise-viewer>
+                <figure class="promise__shot" data-promise-shot><span class="art-tag" aria-hidden="true">*Artistic Image</span>
+                  <img
+                    src="assets/updates2/The freedom to reconnect .jpg"
+                    alt="Placeholder: modern house beside a large tree at dusk"
+                    width="1200"
+                    height="1050"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure class="promise__shot" data-promise-shot><span class="art-tag" aria-hidden="true">*Artistic Image</span>
+                  <img
+                    src="assets/updates2/Find time with your self.jpg"
+                    alt="Placeholder: calm, minimal bedroom in soft light"
+                    width="1200"
+                    height="900"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure class="promise__shot" data-promise-shot><span class="art-tag" aria-hidden="true">*Artistic Image</span>
+                  <img
+                    src="assets/updates2/The nature relatisonship.jpg"
+                    alt="Placeholder: open timber veranda beside a pool"
+                    width="1000"
+                    height="1316"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure class="promise__shot" data-promise-shot><span class="art-tag" aria-hidden="true">*Artistic Image</span>
+                  <img
+                    src="assets/updates2/The embrace  a more.jpg"
+                    alt="Placeholder: a person resting on a mountain ridge at sunset"
+                    width="1000"
+                    height="1300"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+
+                <div class="promise__meta" aria-hidden="true">
+                  <span class="promise__count"
+                    ><span data-promise-count>01</span> / 04</span
+                  >
+                  <span class="promise__track"
+                    ><span
+                      class="promise__track-fill"
+                      data-promise-progress
+                    ></span
+                  ></span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ======================================================================
+         SECTION 9 — FINAL CTA
+         ====================================================================== -->
+        <section
+          class="finale"
+          id="finale"
+          aria-labelledby="finale-title"
+          data-finale
+        >
+          <div class="finale__bg" aria-hidden="true" data-finale-bg></div>
+
+          <div class="finale__inner">
+            <h2 class="finale__title" id="finale-title">
+              <span class="finale__line"
+                ><span class="finale__line-inner" data-finale-line
+                  >Come Closer to the Life</span
+                ></span
+              >
+              <span class="finale__line"
+                ><span class="finale__line-inner" data-finale-line
+                  >You Deserve.</span
+                ></span
+              >
+            </h2>
+
+            <div class="finale__row">
+              <span
+                class="finale__rule"
+                aria-hidden="true"
+                data-finale-rule
+              ></span>
+              <p class="finale__lead" data-finale-lead>
+                Discover the philosophy of nature, balance and mindful living.
+              </p>
+              <div class="finale__cta-wrap" data-finale-cta-wrap>
+                <a class="btn btn--solid btn--bubble finale__cta" href="contact.html" data-visit-open>
+                  <span class="finale__cta-label">Connect With Us</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="finale__band" data-finale-band><span class="art-tag" aria-hidden="true">*Artistic Image</span>
+            <img
+              class="finale__img"
+              data-finale-img
+              src="assets/updates2/thoughtfully rooted.jpg"
+              alt="Placeholder: modern villa beside a still pool"
+              width="1266"
+              height="599"
+              loading="lazy"
+              decoding="async"
+            />
+            <p class="finale__brand" data-finale-brand>
+              <span class="finale__wordmark" data-finale-wordmark>Vedvan</span>
+              <span class="finale__tagline" data-finale-tagline
+                ><span aria-hidden="true">&mdash;</span> Elemental Living</span
+              >
+            </p>
+          </div>
+        </section>
+      </main>
+
+      <!-- Site footer: outside the Barba container so it persists across pages. The image is a temporary placeholder
+             (assets/others/) and the disclaimer copy is placeholder text — replace both. footer.js handles the form and parallax. -->
+
+      <footer
+        class="site-footer"
+        aria-labelledby="footer-title"
+        data-site-footer
+      >
+        <div class="site-footer__inner">
+          <div class="site-footer__join">
+            <h4 class="site-footer__title" id="footer-title">Come See What Life Could Feel Like</h4>
+            <p class="site-footer__lead">
+              A different way of living deserves a closer look. Leave your
+              details and let us introduce you to the world of Vedvan.
+            </p>
+
+            <form class="site-footer__form" novalidate data-footer-form>
+              <div class="site-footer__field">
+                <label class="site-footer__label" for="footer-first-name"
+                  >First Name*</label
+                >
+                <input
+                  class="site-footer__input"
+                  id="footer-first-name"
+                  name="firstName"
+                  type="text"
+                  autocomplete="given-name"
+                  required
+                />
+              </div>
+              <div class="site-footer__field">
+                <label class="site-footer__label" for="footer-last-name"
+                  >Last Name*</label
+                >
+                <input
+                  class="site-footer__input"
+                  id="footer-last-name"
+                  name="lastName"
+                  type="text"
+                  autocomplete="family-name"
+                  required
+                />
+              </div>
+              <div class="site-footer__field site-footer__field--wide">
+                <label class="site-footer__label" for="footer-email"
+                  >Email*</label
+                >
+                <input
+                  class="site-footer__input"
+                  id="footer-email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+              <label class="site-footer__consent">
+                <input
+                  class="site-footer__checkbox"
+                  name="consent"
+                  type="checkbox"
+                  required
+                />
+                <span
+                  >I agree to receive updates and communications from
+                  Vedvan.</span
+                >
+              </label>
+              <div class="site-footer__actions">
+                <button class="btn btn--solid btn--bubble site-footer__submit" type="submit">
+                  Plan Your Private Visit
+                </button>
+                <p
+                  class="site-footer__status"
+                  role="status"
+                  aria-live="polite"
+                  data-footer-status
+                ></p>
+              </div>
+            </form>
+          </div>
+
+          <!-- Right side: menu, contact links and note, spread with space-between so the
+               last column ends at the container edge -->
+          <div class="site-footer__aside">
+            <nav class="site-footer__nav" aria-label="Footer">
+              <ul class="site-footer__links">
+                <li><a class="site-footer__link" href="#home">Home</a></li>
+                <li><a class="site-footer__link" href="#about">About</a></li>
+                <li><a class="site-footer__link" href="#our-story">Our Story</a></li>
+                <li><a class="site-footer__link" href="#location">Location</a></li>
+                <li><a class="site-footer__link" href="#highlights">Highlights</a></li>
+                <li><a class="site-footer__link" href="#wellness">Experience</a></li>
+              </ul>
+            </nav>
+
+            <ul class="site-footer__reach" aria-label="Contact">
+              <li>
+                <a
+                  class="site-footer__gold-link"
+                  href="mailto:connect@thevedvan.com"
+                  >Email us</a
+                >
+              </li>
+              <li>
+                <a class="site-footer__gold-link" href="tel:+919516695266"
+                  >Call us</a
+                >
+              </li>
+              <li>
+                <a
+                  class="site-footer__gold-link"
+                  href="mailto:connect@thevedvan.com?subject=Vedvan%20enquiry"
+                  data-visit-open
+                  >Enquire</a
+                >
+              </li>
+            </ul>
+
+            <div class="site-footer__note">
+             
+              <p class="site-footer__direct">
+                For direct inquiries, our team is available at
+                <a
+                  class="site-footer__gold-link site-footer__phone"
+                  href="tel:+919516695266"
+                  >+91 95166 95266</a
+                >
+                <a
+                  class="site-footer__gold-link site-footer__email"
+                  href="mailto:connect@thevedvan.com"
+                  >connect@thevedvan.com</a
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="site-footer__scene" data-footer-scene><span class="art-tag" aria-hidden="true">*Artistic Image</span>
+          <div class="site-footer__media" data-footer-parallax>
+            <img
+              class="site-footer__img"
+              src="assets/updates2/Footer Website image-05.jpg"
+              alt="Placeholder: white house with a wide porch among tall trees and a lawn"
+              width="2000"
+              height="1000"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="site-footer__bottom">
+            <p class="site-footer__copy">&copy;2026, All Rights Reserved. Digital Media Planned by Ritz Media World.</p>
+           
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- "Request a Private Visit" popup. Opened by any [data-visit-open] button
+         (script/others/visit.js, styles/others/visit.css). -->
+    <div class="visit" role="dialog" aria-modal="true" aria-labelledby="visit-title" aria-describedby="visit-lead" aria-hidden="true" hidden data-visit>
+      <div class="visit__backdrop" data-visit-close></div>
+
+      <div class="visit__panel" tabindex="-1" data-lenis-prevent>
+        <button class="visit__close" type="button" aria-label="Close" data-visit-close>
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M3 3l10 10M13 3L3 13" /></svg>
+        </button>
+
+        <div class="visit__body">
+          <p class="visit__eyebrow">Vedvan &middot; Elemental Living</p>
+          <h2 class="visit__title" id="visit-title">Request a Private Visit</h2>
+          <p class="visit__lead" id="visit-lead">Select your preferred experience and we'll be in touch.</p>
+
+          <form class="visit__form" novalidate data-visit-form>
+            <fieldset class="visit__types">
+              <legend class="visit__label">Request Type</legend>
+              <div class="visit__chips">
+                <label class="visit__chip"><input type="radio" name="requestType" value="Private Presentation" checked /><span>Private Presentation</span></label>
+                <label class="visit__chip"><input type="radio" name="requestType" value="Site Visit" /><span>Site Visit</span></label>
+                <label class="visit__chip"><input type="radio" name="requestType" value="Brochure" /><span>Brochure</span></label>
+              </div>
+            </fieldset>
+
+            <div class="visit__grid">
+              <div class="visit__field visit__field--wide">
+                <label for="visit-name">Full Name</label>
+                <input id="visit-name" name="name" type="text" autocomplete="name" placeholder="Your name" required aria-describedby="visit-name-error" />
+                <p class="visit__error" id="visit-name-error" aria-live="polite"></p>
+              </div>
+              <div class="visit__field visit__field--email">
+                <label for="visit-email">Email</label>
+                <input id="visit-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required aria-describedby="visit-email-error" />
+                <p class="visit__error" id="visit-email-error" aria-live="polite"></p>
+              </div>
+              <div class="visit__field">
+                <label for="visit-phone">Phone</label>
+                <input id="visit-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+91 98765 43210" required aria-describedby="visit-phone-error" />
+                <p class="visit__error" id="visit-phone-error" aria-live="polite"></p>
+              </div>
+              <div class="visit__field visit__field--wide visit__field--date">
+                <label for="visit-date">Preferred Date</label>
+                <input id="visit-date" name="date" type="date" required aria-describedby="visit-date-error" />
+                <p class="visit__error" id="visit-date-error" aria-live="polite"></p>
+              </div>
+            </div>
+
+            <div class="visit__actions">
+              <button class="btn btn--solid btn--bubble visit__submit" type="submit">Send Request</button>
+              <p class="visit__note" role="status" data-visit-status></p>
+            </div>
+          </form>
+
+          <div class="visit__done" hidden data-visit-done>
+            <h3 class="visit__title" tabindex="-1">Thank you.</h3>
+            <p>Your email app should open with your request ready to send. Our team will be in touch to confirm your visit.</p>
+            <button class="btn btn--solid btn--bubble" type="button" data-visit-close>Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Barba page-change curtain. Cloud files load after the page has finished loading (data-src, page-transitions.js). -->
+    <div class="page-transition" aria-hidden="true" data-page-transition>
+      <div class="gateway__cloud gateway__cloud--two" data-transition-cloud>
+        <img
+          data-src="assets/others/cloude2.webp"
+          alt=""
+          width="1850"
+          height="1850"
+          decoding="async"
+        />
+      </div>
+      <div class="gateway__cloud gateway__cloud--one" data-transition-cloud>
+        <img
+          data-src="assets/others/cloude1.webp"
+          alt=""
+          width="1580"
+          height="1580"
+          decoding="async"
+        />
+      </div>
+      <img
+        class="page-transition__logo"
+        src="assets/logo/new-yellow-logo.png"
+        alt=""
+        width="150"
+        height="122"
+        loading="lazy"
+        decoding="async"
+        data-transition-logo
+      />
+    </div>
+  </body>
+</html>

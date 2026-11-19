@@ -1,0 +1,62 @@
+/* ==========================================================================
+   Vedvan — animation support styles
+   GSAP owns the motion; this file only provides initial states that prevent
+   a flash of un-animated content, the page-transition overlay, and
+   reduced-motion overrides.
+   ========================================================================== */
+
+/* Elements GSAP reveals start hidden, but only when JS runs, motion is
+   allowed and the animation stack has not failed (`.anim-failed` is set by
+   an inline safety timer in <head> or by core.js when GSAP is missing). */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-animate] {
+    visibility: hidden;
+  }
+}
+
+.anim-failed [data-animate] {
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Page transition curtain (Barba) */
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: var(--vv-z-transition);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--vv-primary);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.page-transition__logo {
+  position: relative;
+  z-index: 1;
+  width: clamp(4rem, 8vw, 6rem);
+  height: auto;
+  opacity: 0;
+}
+
+.is-transitioning,
+.is-transitioning * {
+  cursor: progress;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+}

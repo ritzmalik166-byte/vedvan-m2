@@ -1,0 +1,934 @@
+/* ==========================================================================
+   Vedvan — home section 2: pinned story (real-estate redesign)
+   Slides: 01 Elemental Living · 02–04 Earth / Water / Air · 05 Wellness
+   Philosophy (with a large image).
+   Two layouts:
+   - Default (no JS, reduced motion, animation failure): slides stack in
+     normal flow, fully readable, images follow as a gallery.
+   - .is-sequenced (added by story.js when motion is allowed): the section is
+     one viewport tall, slides overlap, and story.js swaps them when each
+     ScrollTrigger trigger point is crossed. Hidden states are set by JS.
+   Breakpoints: pinned only at >= 80rem. Below 80rem story.js adds .is-slider
+   instead: a simple slider at content height (copy + image side by side at
+   64–80rem, stacked image-over-copy on tablets and phones < 64rem).
+   ========================================================================== */
+   @layer components {
+    .story {
+      position: relative;
+      isolation: isolate;
+      width: 100%;
+      overflow: hidden;
+      background-color: var(--vedvan-green-dark);
+      color: var(--vv-ivory);
+    }
+
+    /* Background: gradient + slow drifting light + grain. */
+    .story__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+      background: linear-gradient(165deg, var(--vedvan-green-light) 0%, var(--vedvan-green-dark) 48%, var(--vedvan-green-dark) 70%, var(--vedvan-green-light) 100%);
+    }
+
+    .story__bg::before {
+      content: "";
+      position: absolute;
+      inset: -25%;
+      will-change: transform;
+      background:
+        radial-gradient(38% 30% at 22% 28%, rgb(222 230 180 / 0.05), transparent 70%),
+        radial-gradient(34% 42% at 78% 70%, rgb(10 16 7 / 0.26), transparent 70%),
+        radial-gradient(40% 30% at 30% 85%, rgb(10 16 7 / 0.2), transparent 70%);
+      animation: story-light-drift 40s ease-in-out infinite alternate;
+    }
+
+    .story__grain {
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* Element glow: story.js tweens its colour per zone */
+    .story__tint {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      color: transparent;
+      mix-blend-mode: screen;
+      background: radial-gradient(60% 75% at 78% 52%, currentColor, transparent 72%);
+    }
+
+    @keyframes story-light-drift {
+      0%   { transform: translate3d(-2%, -1.5%, 0) rotate(-1.5deg) scale(1); }
+      50%  { transform: translate3d(1.5%, 1%, 0) rotate(0.5deg) scale(1.04); }
+      100% { transform: translate3d(3%, -0.5%, 0) rotate(2deg) scale(1.02); }
+    }
+
+    /* Deeper forest backdrop behind the zone slides (story.js fades it in) */
+    .story__depth {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background:
+        radial-gradient(48% 42% at 14% 10%, rgb(170 186 120 / 0.08), transparent 70%),
+        radial-gradient(85% 75% at 72% 48%, rgb(36 52 32 / 0.5), transparent 75%),
+        linear-gradient(160deg, #18241a 0%, #131d14 55%, #0e160f 100%);
+    }
+
+    /* Slides ------------------------------------------------------------ */
+    .story__viewport {
+      position: relative;
+      z-index: 2;
+    }
+
+    .story__slide {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      min-height: 100svh;
+      padding: var(--vv-section-py-top) var(--vv-gutter) var(--vv-section-py);
+    }
+
+    .split__word { display: inline-block; }
+    .split__char { display: inline-block; will-change: transform; }
+
+    /* Display headings --------------------------------------------------- */
+    .story__display {
+      margin: 0;
+      font-family: var(--vv-font-display);
+      font-size: clamp(2.25rem, min(4.6vw, 8.5vh), 2.875rem);
+      font-weight: 400;
+      line-height: 1.06;
+      letter-spacing: -0.012em;
+      text-wrap: balance;
+      color: var(--vv-ivory);
+    }
+
+    @media (min-width: 48rem) {
+      .story__line { display: block; }
+    }
+
+    .story__aside {
+      width: min(28rem, 100%);
+      margin-top: clamp(1.5rem, 5vh, 3rem);
+    }
+
+    .story__text {
+      margin: 0;
+      font-size: clamp(0.9375rem, 0.15vw + 0.88rem, 1.0625rem);
+      font-weight: 400;
+      line-height: 1.7;
+      color: rgb(243 236 214 / 0.84);
+    }
+
+    .story__text + .story__text { margin-top: 0.9em; }
+    .story__text--accent { color: var(--vv-text-gold); }
+
+    .story__link {
+      display: inline-block;
+      margin-top: clamp(1.25rem, 3.5vh, 2rem);
+      padding-bottom: 0.25rem;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--vv-lime);
+      background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+      transition:
+        color var(--vv-duration-fast) var(--vv-ease-out),
+        background-size var(--vv-duration-base) var(--vv-ease-out);
+    }
+
+    .story__link:hover {
+      color: var(--vv-ivory);
+      background-size: 35% 1px;
+    }
+
+    /* Split slides (01 Elemental Living, 05 Wellness Philosophy) --------- */
+    .story__split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: clamp(2rem, 5vw, 5rem);
+      align-items: center;
+      flex: 1;
+    }
+
+    .story__split .story__display { font-size: clamp(2.25rem, min(5vw, 9vh), 2.875rem); }
+
+    .story__split .story__aside {
+      width: 100%;
+      max-width: 32rem;
+      margin: 0;
+    }
+
+    .story__split .story__eyebrow { margin-bottom: clamp(0.875rem, 2.5vh, 1.5rem); }
+
+
+    /* Five-element row (slide 01) */
+    .story__elements {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(0.75rem, 1.4vw, 1.25rem);
+      margin: clamp(1.25rem, 4vh, 2.25rem) 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .story__el {
+      display: grid;
+      justify-items: center;
+      gap: 0.5rem;
+      font-size: 0.625rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgb(243 236 214 / 0.78);
+    }
+
+    .story__el-icon {
+      display: grid;
+      place-items: center;
+      width: clamp(2.75rem, 3.6vw, 3.5rem);
+      aspect-ratio: 1;
+      border: 1px solid rgb(182 169 110 / 0.4);
+      border-radius: 50%;
+      color: var(--vv-text-gold);
+      transition:
+        background-color var(--vv-duration-base) var(--vv-ease-out),
+        border-color var(--vv-duration-base) var(--vv-ease-out),
+        transform var(--vv-duration-base) var(--vv-ease-out);
+    }
+
+    .story__el:hover .story__el-icon {
+      border-color: var(--vv-gold-light);
+      background-color: rgb(182 169 110 / 0.1);
+      transform: translateY(-0.2rem);
+    }
+
+    .story__el-icon svg { width: 44%; height: 44%; }
+
+    /* Pull quote (slide 05) */
+    .story__quote {
+      margin: clamp(1rem, 3vh, 1.75rem) 0 0;
+      padding-left: 1.125rem;
+      border-left: 1px solid rgb(182 169 110 / 0.5);
+      font-family: var(--vv-font-sub);
+      font-size: clamp(1.125rem, 0.6vw + 1rem, 1.625rem);
+      font-style: normal;
+      line-height: 1.35;
+      color: var(--vv-ivory);
+    }
+
+    /* Wellness Philosophy: copy + large image ---------------------------- */
+    .story__split--media {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: clamp(2rem, 5vw, 5rem);
+      align-items: stretch;
+    }
+
+    .story__split--media .story__display { font-size: clamp(2rem, min(4.2vw, 8vh), 2.875rem); }
+
+    .story__col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: clamp(1rem, 3vh, 1.75rem);
+      min-width: 0;
+    }
+
+    .story__media {
+      position: relative;
+      align-self: stretch;
+      justify-self: stretch;
+      margin: 0;
+      min-height: clamp(18rem, 60svh, 40rem);
+      border-radius: 1.25rem;
+      background-color: #3d5230;
+      isolation: isolate;
+    }
+
+    .story__media img {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+      will-change: transform, clip-path;
+    }
+
+    .story__media::after {
+      content: "";
+      position: absolute;
+      inset: 55% 0 0;
+      z-index: 2;
+      border-radius: 0 0 1.25rem 1.25rem;
+      background: linear-gradient(to top, rgb(10 16 8 / 0.35), transparent);
+      pointer-events: none;
+    }
+
+    .story__media img.is-broken { visibility: hidden; }
+
+    /* Zone slides (02–04) ------------------------------------------------ */
+    .story__copy {
+      --story-gold-line: rgb(182 169 110 / 0.5);
+      width: min(32rem, 34vw);
+    }
+
+    /* Element icons (assets/icons/*.png). The PNGs are white line art, so
+       each is used as a mask filled with currentColor: the icon takes the
+       same colour (and hover colour) the old inline icons had. Sizes come
+       from the existing svg rules in each spot. */
+    [data-element-icon] {
+      display: block;
+      background-color: currentColor;
+      -webkit-mask: var(--element-icon) center / contain no-repeat;
+      mask: var(--element-icon) center / contain no-repeat;
+    }
+
+    [data-element-icon="earth"] { --element-icon: url("../../assets/icons/earth.png"); }
+    [data-element-icon="water"] { --element-icon: url("../../assets/icons/water.png"); }
+    [data-element-icon="fire"]  { --element-icon: url("../../assets/icons/fire.png"); }
+    [data-element-icon="air"]   { --element-icon: url("../../assets/icons/air.png"); }
+    [data-element-icon="space"] { --element-icon: url("../../assets/icons/space.png"); }
+    [data-element-icon="lotus"] { --element-icon: url("../../assets/logo/logo-icn1.png"); }
+
+    .story__lotus,
+    .story__divider svg,
+    .story__rail-btn svg,
+    .story__el-icon svg {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .story__eyebrow {
+      font-family: var(--vv-font-sub);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 0 0 clamp(0.875rem, 2.5vh, 1.5rem);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--vv-text-gold);
+    }
+
+    .story__lotus { flex: none; width: 1.25rem; height: 1.25rem; }
+
+    .story__eyebrow::after {
+      content: "";
+      flex: 0 1 5rem;
+      height: 1px;
+      margin-left: 0.25rem;
+      background-color: var(--story-gold-line);
+    }
+
+    .story__heading {
+      margin: 0;
+      font-family: var(--vv-font-display);
+      font-size: clamp(2.5rem, min(6vw, 11vh), 2.875rem);
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.012em;
+      color: var(--vv-text-gold);
+    }
+
+    .story__heading .split__word {
+      white-space: nowrap;
+      overflow: hidden;
+      vertical-align: top;
+      padding: 0 0.03em 0.12em;
+      margin: 0 -0.03em -0.12em;
+    }
+
+    .story__tagline {
+      margin: clamp(0.5rem, 1.4vh, 0.875rem) 0 0;
+      font-family: var(--vv-font-sub);
+      font-size: clamp(1.1875rem, 0.6vw + 1rem, 1.75rem);
+      font-style: normal;
+      line-height: 1.25;
+      color: var(--vv-text-gold);
+    }
+
+    .story__divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      width: min(11rem, 100%);
+      margin-top: clamp(0.75rem, 2.4vh, 1.5rem);
+      color: var(--vv-text-gold);
+    }
+
+    .story__divider::before,
+    .story__divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background-color: var(--story-gold-line);
+    }
+
+    .story__divider svg { flex: none; width: 1.125rem; height: 1.125rem; }
+
+    .story__lead {
+      margin: clamp(0.75rem, 2.2vh, 1.25rem) 0 0;
+      font-size: clamp(1rem, 0.2vw + 0.93rem, 1.125rem);
+      font-weight: 400;
+      line-height: 1.7;
+      color: rgb(243 236 214 / 0.9);
+    }
+
+    /* Look + hover come from the shared .btn .btn--solid .btn--bubble */
+    .story__cta {
+      margin-top: clamp(1.125rem, 3vh, 2rem);
+    }
+
+    /* Image stage. Default: a static gallery after the slides. */
+    .story__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+    .story__stage {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(0.75rem, 2vw, 1.5rem);
+      padding: 0 var(--vv-gutter) var(--vv-section-py);
+    }
+
+    .story__rig,
+    .story__frame { display: contents; }
+
+    .story__img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: 1.25rem;
+      background-color: #3d5230;
+    }
+
+    .story__img.is-broken { visibility: hidden; }
+    .story__caption,
+    .story__rail { display: none; }
+
+    /* Slide progress (only meaningful while pinned) ---------------------- */
+    .story__progress {
+      position: absolute;
+      left: var(--vv-gutter);
+      bottom: clamp(1.25rem, 4.5vh, 2.75rem);
+      z-index: 3;
+      display: none;
+      align-items: center;
+      gap: 0.875rem;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      font-variant-numeric: tabular-nums;
+      color: rgb(243 236 214 / 0.8);
+      pointer-events: none;
+    }
+
+    .story.is-sequenced .story__progress { display: flex; }
+
+    .story__progress-track {
+      position: relative;
+      width: clamp(4.5rem, 9vw, 8rem);
+      height: 1px;
+      overflow: hidden;
+      background-color: rgb(196 204 142 / 0.22);
+    }
+
+    .story__progress-fill {
+      position: absolute;
+      inset: 0;
+      background-color: rgb(213 224 122 / 0.9);
+      transform: scaleX(0);
+      transform-origin: 0 50%;
+    }
+
+    .story__progress-total { color: rgb(243 236 214 / 0.45); }
+
+    /* Sequenced (pinned) mode ------------------------------------------ */
+    .story.is-sequenced { height: 100vh; height: 100svh; }
+    .story.is-sequenced .story__viewport { height: 100%; }
+
+    .story.is-sequenced .story__slide {
+      position: absolute;
+      inset: 0;
+      min-height: 0;
+      pointer-events: none;
+    }
+
+    .story.is-sequenced .story__slide--zone { justify-content: center; }
+
+    .story.is-sequenced .story__copy { position: relative; z-index: 1; }
+    .story.is-sequenced .story__media { min-height: 0; }
+
+    .story.is-sequenced .story__stage {
+      position: absolute;
+      top: calc(var(--vv-header-top) + var(--vv-nav-height) + 1rem);
+      right: var(--vv-gutter);
+      bottom: var(--vv-section-py);
+      display: block;
+      width: min(calc(100vw - 2 * var(--vv-gutter) - 34rem), 64rem);
+      padding: 0;
+      perspective: 1400px;
+      pointer-events: none;
+    }
+
+    .story.is-sequenced .story__rig {
+      position: absolute;
+      inset: 0;
+      display: block;
+      /* No permanent will-change: it froze the frame's raster at its
+         scaled-down entry size, making the image look soft. GSAP promotes
+         the layer only while it is animating. */
+    }
+
+    .story.is-sequenced .story__frame {
+      position: absolute;
+      inset: 0;
+      display: block;
+      margin: 0;
+      overflow: hidden;
+      background-color: #3d5230;
+      /* clip-path: url(#story-mask-a); */
+      border-radius: 1.25rem;
+    }
+
+    .story.is-sequenced .story__frame::after {
+      content: "";
+      position: absolute;
+      inset: 55% 0 0;
+      z-index: 3;
+      background: linear-gradient(to top, rgb(10 16 8 / 0.5), transparent);
+      pointer-events: none;
+    }
+
+    .story.is-sequenced .story__img {
+      position: absolute;
+      inset: 0;
+      height: 100%;
+      aspect-ratio: auto;
+      border-radius: 0;
+      will-change: transform, clip-path;
+    }
+
+    .story.is-sequenced .story__caption {
+      position: absolute;
+      left: clamp(1rem, 2vw, 1.75rem);
+      bottom: clamp(1rem, 2vw, 1.75rem);
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      padding: 0.625rem 1.125rem 0.625rem 0.875rem;
+      border: 1px solid rgb(182 169 110 / 0.3);
+      border-radius: 0.75rem;
+      background-color: rgb(14 22 12 / 0.45);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+
+    .story__caption-no {
+      font-family: var(--vv-font-sub);
+      font-size: clamp(1.25rem, 1.6vw, 1.625rem);
+      line-height: 1;
+      color: var(--vv-text-gold);
+    }
+
+    .story__caption-no i {
+      font-size: 0.5em;
+      font-style: normal;
+      letter-spacing: 0.1em;
+      color: rgb(243 236 214 / 0.55);
+    }
+
+    .story__caption-text {
+      display: grid;
+      gap: 0.15rem;
+      padding-left: 0.875rem;
+      border-left: 1px solid rgb(182 169 110 / 0.3);
+    }
+
+    .story__caption-text strong {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--vv-ivory);
+    }
+
+    .story__caption-text em {
+      font-size: 0.6875rem;
+      font-style: normal;
+      letter-spacing: 0.06em;
+      color: rgb(243 236 214 / 0.65);
+    }
+
+    /* Element navigator */
+    .story.is-sequenced .story__rail {
+      position: absolute;
+      right: var(--vv-gutter);
+      bottom: clamp(1rem, 3.6vh, 2.25rem);
+      z-index: 3;
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    .story__rail-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.75rem;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: none;
+      font: inherit;
+      font-size: 0.625rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgb(243 236 214 / 0.55);
+      cursor: pointer;
+      transition:
+        color var(--vv-duration-base) var(--vv-ease-out),
+        border-color var(--vv-duration-base) var(--vv-ease-out),
+        background-color var(--vv-duration-base) var(--vv-ease-out);
+    }
+
+    .story__rail-btn svg { width: 1rem; height: 1rem; }
+    .story__rail-btn:hover { color: var(--vv-ivory); }
+
+    .story__rail-btn.is-active {
+      color: var(--vv-text-gold);
+      border-color: rgb(182 169 110 / 0.5);
+      background-color: rgb(182 169 110 / 0.08);
+    }
+
+    .story__rail-btn:focus-visible {
+      outline: 2px solid var(--vv-gold-light);
+      outline-offset: 2px;
+    }
+
+    /* Tablet + mobile (< 64rem): single-column / stacked layout ---------- */
+    @media (max-width: 63.99rem) {
+      .story__slide {
+        padding: var(--vv-section-py-top) var(--vv-gutter) var(--vv-section-py);
+      }
+
+      .story__display {
+        font-size: clamp(1.875rem, min(8.6vw, 6vh), 2.5rem);
+        line-height: 1.1;
+      }
+
+      .story__split {
+        grid-template-columns: minmax(0, 1fr);
+        align-content: start;
+        gap: 1.25rem;
+      }
+
+      .story__split .story__display,
+      .story__split--media .story__display {
+        font-size: clamp(1.75rem, min(7.6vw, 5.5vh), 2.25rem);
+      }
+
+      .story__slide--split:not(.story__slide--media)::before {
+        width: 80vw;
+        right: -10vw;
+        bottom: 4rem;
+      }
+
+      .story__aside {
+        width: min(21rem, 100%);
+        margin-top: clamp(1.25rem, 4vh, 2rem);
+      }
+
+      .story__split .story__aside { width: 100%; }
+
+      .story__split .story__text {
+        font-size: 0.8125rem;
+        line-height: 1.5;
+      }
+
+      .story__link { position: relative; }
+
+      .story__link::after {
+        content: "";
+        position: absolute;
+        inset: -0.75rem -0.5rem;
+      }
+
+      .story__copy { width: 100%; margin: 0; }
+
+      .story__eyebrow { margin-bottom: 0.625rem; }
+      .story__lotus { width: 1.125rem; height: 1.125rem; }
+      .story__eyebrow::after { flex-basis: 3rem; }
+
+      .story__heading { font-size: clamp(2.25rem, min(11vw, 7.5vh), 2.875rem); }
+      .story__tagline { font-size: 1.0625rem; }
+
+      .story__divider,
+
+      .story__lead {
+        margin-top: 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1.55;
+      }
+
+      .story__cta {
+        margin-top: 0.875rem;
+      }
+
+
+      .story__quote {
+        margin-top: 0.75rem;
+        font-size: 1rem;
+      }
+
+      .story__elements { margin-top: 0.875rem; }
+      .story__el-icon { width: 2.5rem; }
+
+      /* Wellness image sits above its copy */
+      .story__split--media { gap: 1rem; }
+
+      .story__media {
+        order: -1;
+        min-height: 0;
+        height: min(26svh, 48vw);
+        border-radius: 1.25rem;
+      }
+
+
+    }
+
+    /* Tablet only: same stacked layout, just larger type and a taller image */
+    @media (min-width: 48rem) and (max-width: 63.99rem) {
+      .story__split .story__aside,
+      .story__copy { max-width: 40rem; }
+
+      .story__split .story__text,
+      .story__lead {
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      .story__display,
+      .story__split .story__display,
+      .story__split--media .story__display {
+        font-size: clamp(2.25rem, min(6vw, 5.5vh), 2.875rem);
+      }
+
+      .story__heading { font-size: clamp(2.5rem, min(9vw, 7.5vh), 2.875rem); }
+      .story__tagline { font-size: 1.375rem; }
+      .story__media { height: min(40svh, 52vw); }
+    }
+
+    /* Mobile + tablet: the fire pit and couple sit in the lower half of the
+       Fire creative, so shift the crop down instead of centring it */
+    @media (max-width: 63.99rem) {
+      .story__img[data-story-for="4"] { object-position: center 78%; }
+      .story__img[data-story-for="6"] { object-position: center 85%; }
+    }
+
+    /* Short phones / short tablets: a smaller wellness image */
+    @media (max-width: 63.99rem) and (max-height: 40rem) {
+      .story__media { height: min(20svh, 40vw); }
+    }
+
+    /* Below xl (< 1280px): simple slider (buildSlider in script/home/story.js),
+       never pinned. All slides share one grid cell, so the section is as tall
+       as its tallest slide (no fixed 100vh). On lg (64–80rem) zone images from
+       the shared frame fill the right column of that cell; on tablets and
+       phones they sit above the copy (see the < 64rem block below). Controls
+       sit in the row below. */
+    @media (max-width: 79.99rem) {
+      .story__slide { min-height: 0; }
+
+      /* The section's padding is the site container (same gutter as the
+         navbar and other sections); slides and controls sit inside it. */
+      .story.is-slider {
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+        grid-template-rows: auto auto;
+        column-gap: clamp(2rem, 4vw, 3.5rem);
+        padding-inline: var(--vv-gutter);
+        /* Vertical page scroll stays native; sideways drags become swipes */
+        touch-action: pan-y;
+      }
+
+      .story.is-slider .story__viewport,
+      .story.is-slider .story__stage { display: contents; }
+
+      .story.is-slider .story__slide {
+        grid-area: 1 / 1 / 2 / 3;
+        padding-inline: 0;
+        padding-bottom: 2rem;
+        visibility: hidden;
+      }
+
+      .story.is-slider .story__slide.is-active,
+      .story.is-slider .story__slide.is-leaving { visibility: visible; }
+
+      .story.is-slider .story__slide.is-leaving { z-index: 1; }
+      .story.is-slider .story__slide.is-active { z-index: 2; }
+
+      /* Zone slides: copy in the left column, image in the right */
+      .story.is-slider .story__slide--zone {
+        grid-area: 1 / 1 / 2 / 2;
+        justify-content: center;
+      }
+
+      .story.is-slider .story__copy { width: 100%; max-width: 24rem; }
+
+      /* Zone image: fills the right column at the slide's height and ends on
+         the container edge. contain: size stops its intrinsic height from
+         stretching the row. */
+      .story.is-slider .story__img {
+        position: relative;
+        grid-area: 1 / 2 / 2 / 3;
+        align-self: stretch;
+        justify-self: stretch;
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        aspect-ratio: auto;
+        margin: var(--vv-section-py-top) 0 2rem;
+        contain: size;
+        border-radius: 1.25rem;
+        /* Hidden with opacity, not visibility, so every image stays decoded
+           and painted: a newly shown image never flashes the background */
+        opacity: 0;
+        pointer-events: none;
+        transform: none;
+        will-change: clip-path;
+      }
+
+      .story.is-slider .story__img.is-leaving { opacity: 1; z-index: 2; }
+      .story.is-slider .story__img.is-active { opacity: 1; z-index: 3; }
+
+      /* Controls */
+      .story__slider-nav {
+        grid-area: 2 / 1 / 3 / 3;
+        position: relative;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding-bottom: var(--vv-section-py);
+      }
+
+      .story__slider-btn {
+        display: grid;
+        place-items: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        padding: 0;
+        border: 1px solid rgb(243 236 214 / 0.35);
+        border-radius: 50%;
+        background: transparent;
+        color: var(--vv-ivory);
+        cursor: pointer;
+        transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+      }
+
+      .story__slider-btn:hover {
+        border-color: var(--vv-gold-light);
+        background-color: var(--vv-gold-light);
+        color: var(--vedvan-green-dark);
+      }
+
+      .story__slider-btn svg { width: 1.125rem; height: 1.125rem; }
+      .story__slider-btn--prev svg { transform: scaleX(-1); }
+
+      .story__slider-dots {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .story__slider-dot {
+        width: 0.5rem;
+        height: 0.5rem;
+        padding: 0;
+        border: 0;
+        border-radius: 999px;
+        background-color: rgb(243 236 214 / 0.3);
+        cursor: pointer;
+        transition: width 0.3s var(--vv-ease-out), background-color 0.3s;
+      }
+
+      .story__slider-dot.is-active {
+        width: 1.75rem;
+        background-color: var(--vv-gold-light);
+      }
+
+      .story__slider-count {
+        margin-left: auto;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        font-variant-numeric: tabular-nums;
+        color: rgb(243 236 214 / 0.8);
+      }
+
+      .story__slider-count i {
+        font-style: normal;
+        color: rgb(243 236 214 / 0.45);
+      }
+    }
+
+    /* Tablet + phone slider (< 64rem): one column. Row 1 holds the zone image,
+       row 2 the zone copy; the split slides (01, 07) span both rows. The
+       section takes the height of its tallest slide. */
+    @media (max-width: 63.99rem) {
+      .story.is-slider {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto 1fr auto;
+        padding-top: var(--vv-section-py-top);
+      }
+
+      .story.is-slider .story__slide {
+        grid-area: 1 / 1 / 3 / 2;
+        padding-top: 0;
+        padding-bottom: 1.75rem;
+      }
+
+      .story.is-slider .story__slide--zone {
+        grid-area: 2 / 1 / 3 / 2;
+        justify-content: flex-start;
+        padding-top: 1.5rem;
+      }
+
+      .story.is-slider .story__copy { max-width: 40rem; }
+
+      .story.is-slider .story__img {
+        grid-area: 1 / 1 / 2 / 2;
+        align-self: start;
+        height: min(62vw, 26rem);
+        margin: 0;
+        contain: none;
+      }
+
+      .story__slider-nav {
+        grid-area: 3 / 1 / 4 / 2;
+        gap: 0.75rem;
+      }
+
+      .story__slider-btn { width: 2.5rem; height: 2.5rem; }
+      .story__slider-dots { gap: 0.375rem; }
+      .story__slider-dot.is-active { width: 1.25rem; }
+    }
+
+
+    @media (prefers-reduced-motion: reduce) {
+      .story__bg::before { animation: none; }
+    }
+  }

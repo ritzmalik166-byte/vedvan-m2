@@ -1,0 +1,149 @@
+
+/* ==========================================================================
+   Vedvan — home section 4: key highlights
+   Below 1024px: image first, heading and highlights below.
+   ≥1024px: large image left, highlights on a deep green panel right.
+   The image layer is taller than its frame so the scroll parallax
+   (highlights.js) never exposes an edge.
+   ========================================================================== */
+
+   @layer components {
+    .highlights {
+      --hl-green: var(--vv-forest-700);
+      --hl-green-light: color-mix(in oklab, var(--vv-forest-500) 62%, var(--vv-forest-700));
+      --hl-text: var(--vv-sand);
+      --hl-rule: rgb(242 236 219 / 0.16);
+  
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      width: 100%;
+      overflow: hidden;
+      background:
+        radial-gradient(120% 80% at 100% 0%, var(--hl-green-light) 0%, transparent 62%),
+        linear-gradient(160deg, var(--hl-green) 0%, var(--vv-forest-800) 100%);
+      color: var(--hl-text);
+    }
+  
+    .highlights *:focus-visible {
+      outline: 2px solid var(--vv-gold-light);
+      outline-offset: 4px;
+    }
+  
+    /* Image ------------------------------------------------------------------ */
+  
+    .highlights__media {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      background-color: var(--vv-forest-900);
+    }
+  
+    .highlights__media-inner {
+      position: absolute;
+      inset: -8% 0;
+      will-change: transform;
+    }
+  
+    .highlights__img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 50%;
+    }
+  
+    /* Content ---------------------------------------------------------------- */
+  
+    .highlights__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--vv-section-py) var(--vv-gutter);
+    }
+  
+    .highlights__title {
+      margin: 0;
+      font-family: var(--vv-font-display);
+      font-size: clamp(2.25rem, 2.2vw + 1.4rem, 2.875rem);
+      font-weight: 300;
+      line-height: 1.04;
+      letter-spacing: -0.01em;
+      color: var(--vv-text-gold);
+    }
+  
+    .highlights__list {
+      margin: clamp(1.75rem, 4.5vh, 3rem) 0 0;
+      padding: 0;
+      list-style: none;
+    }
+  
+    .highlights__item {
+      display: flex;
+      align-items: center;
+      gap: clamp(1rem, 1.6vw, 1.5rem);
+      padding: clamp(1.1rem, 2.6vh, 1.6rem) 0;
+      border-bottom: 1px solid var(--hl-rule);
+    }
+  
+    /* Big figure (25 Acres, 85%, …) in a fixed-width column so labels align */
+    .highlights__stat {
+      flex: none;
+      min-width: clamp(7.5rem, 11vw, 10rem);
+      margin: 0;
+      font-family: var(--vv-font-display);
+      font-size: clamp(2rem, 1.6vw + 1.4rem, 2.875rem);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: var(--vv-text-gold);
+      white-space: nowrap;
+    }
+
+    .highlights__unit {
+      font-size: 0.45em;
+      letter-spacing: 0.04em;
+    }
+
+    .highlights__label {
+      margin: 0;
+      font-family: var(--vv-font-sans);
+      font-size: clamp(0.75rem, 0.2vw + 0.7rem, 0.875rem);
+      font-weight: 500;
+      line-height: 1.45;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--hl-text);
+      overflow-wrap: anywhere;
+    }
+  
+    /* Desktop: 1024px and above ---------------------------------------------- */
+  
+    @media (min-width: 64rem) {
+      .highlights {
+        grid-template-columns: minmax(0, 57fr) minmax(0, 43fr);
+        min-height: clamp(36rem, 100svh, 62rem);
+      }
+  
+      .highlights__media {
+        aspect-ratio: auto;
+      }
+  
+      .highlights__content {
+        padding: var(--vv-section-py) var(--vv-gutter) var(--vv-section-py) clamp(3rem, 5vw, 6.5rem);
+      }
+  
+      .highlights__label {
+        max-width: 26rem;
+      }
+    }
+
+    /* lg → xl (1024–1279px): no fixed min-height; the section is as tall as
+       its content (the image stretches to match the stats column) */
+    @media (min-width: 64rem) and (max-width: 79.99rem) {
+      .highlights {
+        min-height: 0;
+      }
+    }
+  }
+  

@@ -1,0 +1,170 @@
+/* ==========================================================================
+   Vedvan — welcome gateway (loader)
+
+   Shown on the first full page load of a browsing session. The inline head
+   script adds .gateway-on / .gateway-off before first paint; gateway.js runs
+   the animation and removes the element when the site is revealed.
+
+   Cloud sizing: both files are square with the cloud in a band through the
+   middle (cloude1 ≈ 16–82% high, cloude2 ≈ 25–75%), so each cloud is placed
+   from --size and those fractions to land its visible shape where intended.
+   Landscape: cloud two upper right, cloud one lower left, logo centred.
+   Portrait: cloud two across the top, cloud one across the bottom.
+   ========================================================================== */
+@layer components {
+  .gateway {
+    --gateway-green: var(--vv-primary);
+    --gateway-ivory: #f3ecd6;
+
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    overflow: hidden;
+    contain: strict;
+    pointer-events: auto;
+  }
+
+  .gateway-off .gateway,
+  .no-js .gateway,
+  .anim-failed .gateway:not([data-gateway-running]) {
+    display: none;
+  }
+
+  /* Hiding the scrollbar narrows nothing but widens the layout; pinned
+     sections measured meanwhile are re-measured when gateway.js unlocks. */
+  html.gateway-on {
+    overflow: hidden;
+  }
+
+  .gateway__bg {
+    position: absolute;
+    inset: 0;
+    background: var(--gateway-green);
+    animation: gateway-bg-in 0.9s var(--vv-ease-out) both;
+  }
+
+  @keyframes gateway-bg-in {
+    from { background-color: var(--vv-forest-950); }
+  }
+
+  /* Clouds: the wrapper carries entry/exit, the image carries the idle drift */
+  .gateway__cloud {
+    position: absolute;
+    width: var(--size);
+    aspect-ratio: 1;
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform, opacity;
+  }
+
+  .gateway__cloud img {
+    width: 100%;
+    height: 100%;
+    opacity: 0.92;
+    user-select: none;
+    -webkit-user-drag: none;
+    will-change: transform;
+  }
+
+  .gateway__cloud--two {
+    --size: min(52vw, 92svh);
+    top: calc(var(--size) * -0.25 - 5svh);
+    left: calc(104vw - var(--size) * 0.97);
+  }
+
+  .gateway__cloud--one {
+    --size: min(50vw, 88svh);
+    top: calc(110svh - var(--size) * 0.82);
+    left: calc(-7vw - var(--size) * 0.03);
+  }
+
+  /* Centre column */
+  .gateway__center {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.9rem, 2.2svh, 1.5rem);
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--gateway-ivory);
+  }
+
+  .gateway__logo,
+  .gateway__welcome,
+  .gateway__progress {
+    opacity: 0;
+  }
+
+  .gateway__logo {
+    width: clamp(10rem, min(23vw, 36svh), 21rem);
+    height: auto;
+  }
+
+  .gateway__welcome {
+    margin: 0;
+    font-family: var(--vv-font-display);
+    font-size: clamp(1.125rem, 1.5vw, 1.5rem);
+    font-style: normal;
+    font-weight: 300;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    color: rgb(243 236 214 / 0.86);
+  }
+
+  .gateway__progress {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: clamp(0.25rem, 1.5svh, 1rem);
+  }
+
+  .gateway__track {
+    position: relative;
+    width: clamp(8.5rem, 15vw, 13rem);
+    height: 1px;
+    overflow: hidden;
+    background: rgb(243 236 214 / 0.22);
+  }
+
+  .gateway__fill {
+    position: absolute;
+    inset: 0;
+    background: var(--gateway-ivory);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+  }
+
+  .gateway__percent {
+    min-width: 3.2em;
+    font-family: var(--vv-font-sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.18em;
+    text-align: left;
+    color: rgb(243 236 214 / 0.8);
+  }
+
+  /* Portrait (phones, tablets upright): clouds above and below the logo */
+  @media (max-aspect-ratio: 1/1) {
+    .gateway__cloud--two {
+      --size: min(122vw, 58svh);
+      top: calc(5svh - var(--size) * 0.25);
+      left: calc(112vw - var(--size) * 0.97);
+    }
+
+    .gateway__cloud--one {
+      --size: min(128vw, 60svh);
+      top: calc(104svh - var(--size) * 0.82);
+      left: calc(-14vw - var(--size) * 0.03);
+    }
+
+    .gateway__logo {
+      width: clamp(10rem, 46vw, 18rem);
+    }
+  }
+}

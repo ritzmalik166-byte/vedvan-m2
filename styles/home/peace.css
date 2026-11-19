@@ -1,0 +1,629 @@
+/* ==========================================================================
+   Vedvan — home sections 8 + 9
+   8: The Vedvan Promise — editorial type, pinned image sequence
+   9: Final CTA — ivory curtain, big type, widening full-bleed photograph
+
+   Only straight lines and rectangular image reveals: no circles or
+   decorative shapes. Everything is fully visible by default; promise.js
+   sets every hidden starting state itself (GSAP fromTo), so no JS or
+   reduced motion gives a complete static page.
+   ========================================================================== */
+   @layer components {
+    .promise .fx__word,
+    .promise .fx__char,
+    .finale .fx__word,
+    .finale .fx__char {
+      display: inline-block;
+    }
+  
+    /* ======================================================================
+       SECTION 8 — THE VEDVAN PROMISE
+       ====================================================================== */
+    .promise {
+      --promise-gold: var(--vv-gold-light);
+      --promise-gold-line: rgb(182 169 110 / 0.45);
+      --promise-ivory: var(--vv-ivory, #f3ecd6);
+  
+      position: relative;
+      isolation: isolate;
+      width: 100%;
+      overflow: clip;
+      padding: var(--vv-section-py) 0;
+      background-color: var(--vv-forest-700);
+      color: var(--vv-sand);
+    }
+  
+    .promise :focus-visible {
+      outline: 2px solid var(--vv-gold-light);
+      outline-offset: 4px;
+    }
+  
+    /* Quiet depth: vertical tonal shift + grain */
+    .promise__bg {
+      position: absolute;
+      inset: -10% 0;
+      z-index: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgb(10 16 7 / 0.35) 0%, transparent 28%, transparent 72%, rgb(10 16 7 / 0.3) 100%);
+      will-change: transform;
+    }
+  
+    .promise__grain {
+      position: absolute;
+      inset: 0;
+      opacity: 0.06;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+  
+    .promise__inner {
+      position: relative;
+      z-index: 1;
+      padding-inline: var(--vv-gutter);
+    }
+  
+    /* Head ---------------------------------------------------------------- */
+    .promise__eyebrow {
+      font-family: var(--vv-font-sub);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 0 0 clamp(1.25rem, 3vh, 2rem);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--vv-text-gold);
+    }
+  
+    .promise__eyebrow::after {
+      content: "";
+      flex: 0 1 12rem;
+      height: 1px;
+      background: linear-gradient(90deg, var(--promise-gold-line), transparent);
+    }
+  
+    .promise__title {
+      margin: 0;
+      font-family: var(--vv-font-display);
+      font-size: clamp(1.875rem, 7vw, 2.875rem);
+      font-weight: 400;
+      line-height: 0.95;
+      letter-spacing: -0.005em;
+      text-transform: uppercase;
+      color: var(--vv-text-gold);
+    }
+  
+    /* Left-aligned lines; peace.js fades each one up */
+    .promise__title {
+      text-align: left;
+    }
+
+    .promise__line {
+      display: block;
+      padding-block: 0.06em 0.1em;
+    }
+  
+    .promise__line-inner {
+      display: block;
+      will-change: transform;
+    }
+  
+    .promise__line--accent {
+      color: var(--vv-text-gold);
+    }
+  
+    /* Stage: statement + freedoms beside the image viewer ----------------- */
+    .promise__stage {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: clamp(2.5rem, 6vh, 4rem);
+      margin-top: clamp(3rem, 9vh, 6rem);
+    }
+  
+    .promise__statement {
+      margin: 0;
+      max-width: 34ch;
+      font-family: var(--vv-font-display);
+      font-size: clamp(1.5rem, 1rem + 2.1vw, 2.875rem);
+      font-weight: 400;
+      line-height: 1.22;
+      color: var(--promise-ivory);
+    }
+  
+    .promise__freedoms {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+  
+    .promise__freedom {
+      position: relative;
+      display: grid;
+      grid-template-columns: clamp(2.75rem, 5vw, 4rem) minmax(0, 1fr);
+      align-items: baseline;
+      padding: clamp(1.1rem, 2.6vh, 1.6rem) 0;
+    }
+  
+    .promise__rule {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-color: var(--promise-gold-line);
+      transform-origin: 0 50%;
+    }
+  
+    .promise__num {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      font-variant-numeric: tabular-nums;
+      color: var(--vv-text-gold);
+    }
+  
+    .promise__freedom-text {
+      margin: 0;
+      max-width: 34ch;
+      font-family: inherit;
+      font-size: 23px;
+      font-weight: 500;
+      line-height: 1.3;
+      letter-spacing: 0.01em;
+      color: rgb(243 236 214 / 0.95);
+    }
+
+    .promise__freedom-desc {
+      margin: 0.3rem 0 0;
+      max-width: 44ch;
+      font-size: clamp(0.8125rem, 0.2vw + 0.76rem, 0.9375rem);
+      line-height: 1.6;
+      color: rgb(243 236 214 / 0.72);
+    }
+  
+    /* Viewer: static = a quiet 2 × 2 contact sheet of the four photographs */
+    .promise__viewer {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(0.75rem, 2vw, 1.25rem);
+    }
+  
+    .promise__shot {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      background-color: var(--vv-forest-900);
+    }
+  
+    .promise__shot img {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  
+    .promise__meta {
+      display: none;
+    }
+  
+    /* Desktop: copy left, viewer right; promise.js pins the stage ----------- */
+    @media (min-width: 64rem) {
+      .promise__stage {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        align-items: center;
+        gap: clamp(3rem, 6vw, 8rem);
+      }
+    }
+  
+    /* Pinned: one screen, the four photographs stacked in one viewer */
+    .promise.is-pinned .promise__stage {
+      box-sizing: border-box;
+      height: 100vh;
+      height: 100svh;
+      margin-top: 0;
+      padding-top: var(--vv-section-py-top);
+      padding-bottom: var(--vv-section-py);
+    }
+  
+    .promise.is-pinned .promise__statement {
+      font-size: clamp(1.375rem, 0.8rem + 1.5vw, 2.5rem);
+    }
+  
+    .promise.is-pinned .promise__freedoms {
+      margin-top: 0;
+    }
+  
+    .promise.is-pinned .promise__freedom {
+      padding-block: clamp(0.8rem, 2vh, 1.3rem);
+    }
+  
+    .promise.is-pinned .promise__viewer {
+      position: relative;
+      display: block;
+      height: min(72svh, 46vw);
+    }
+  
+    .promise.is-pinned .promise__shot {
+      position: absolute;
+      inset: 0;
+      aspect-ratio: auto;
+      will-change: clip-path;
+    }
+  
+    .promise.is-pinned .promise__meta {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      font-variant-numeric: tabular-nums;
+      color: var(--vv-text-gold);
+    }
+  
+    .promise__track {
+      position: relative;
+      flex: 1;
+      height: 1px;
+      background-color: var(--promise-gold-line);
+      overflow: hidden;
+    }
+  
+    .promise__track-fill {
+      position: absolute;
+      inset: 0;
+      background-color: var(--promise-gold);
+      transform: scaleX(0);
+      transform-origin: 0 50%;
+    }
+  
+    /* lg → xl (1024–1279px): simple slider (buildPromiseSlider in peace.js),
+       not pinned. No fixed height: the stage is as tall as the freedoms
+       column and the viewer stretches to match, one photograph at a time. */
+    @media (min-width: 64rem) and (max-width: 79.99rem) {
+      .promise.is-slider .promise__stage {
+        align-items: stretch;
+        gap: clamp(2.5rem, 4vw, 4rem);
+      }
+
+      .promise.is-slider .promise__text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: clamp(1.5rem, 3vw, 2.25rem);
+      }
+
+      .promise.is-slider .promise__freedom {
+        cursor: pointer;
+        opacity: 0.4;
+        transition: opacity 0.5s var(--vv-ease-out);
+      }
+
+      .promise.is-slider .promise__freedom:hover { opacity: 0.75; }
+      .promise.is-slider .promise__freedom.is-active { opacity: 1; }
+
+      .promise.is-slider .promise__freedom.is-active .promise__rule {
+        background-color: var(--promise-gold);
+      }
+
+      .promise.is-slider .promise__viewer {
+        position: relative;
+        display: block;
+        min-height: 0;
+      }
+
+      .promise.is-slider .promise__shot {
+        position: absolute;
+        inset: 0;
+        aspect-ratio: auto;
+        z-index: 0;
+        will-change: clip-path;
+        backface-visibility: hidden;
+      }
+
+      /* Every photo stays painted (never visibility: hidden) so it stays
+         decoded and a full picture always sits under the wipe — the dark
+         frame background can never show through. Order is by z-index only. */
+      .promise.is-slider .promise__shot.is-under { z-index: 1; }
+      .promise.is-slider .promise__shot.is-leaving { z-index: 2; }
+      .promise.is-slider .promise__shot.is-active { z-index: 3; }
+
+      /* Controls */
+      .promise__slider-nav {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .promise__slider-btn {
+        display: grid;
+        place-items: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        padding: 0;
+        border: 1px solid var(--promise-gold-line);
+        border-radius: 50%;
+        background: transparent;
+        color: var(--promise-ivory);
+        cursor: pointer;
+        transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+      }
+
+      .promise__slider-btn:hover {
+        border-color: var(--promise-gold);
+        background-color: var(--promise-gold);
+        color: var(--vv-forest-700);
+      }
+
+      .promise__slider-btn svg { width: 1.125rem; height: 1.125rem; }
+      .promise__slider-btn--prev svg { transform: scaleX(-1); }
+
+      .promise__slider-dots {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .promise__slider-dot {
+        width: 0.5rem;
+        height: 0.5rem;
+        padding: 0;
+        border: 0;
+        border-radius: 999px;
+        background-color: rgb(243 236 214 / 0.3);
+        cursor: pointer;
+        transition: width 0.3s var(--vv-ease-out), background-color 0.3s;
+      }
+
+      .promise__slider-dot.is-active {
+        width: 1.75rem;
+        background-color: var(--promise-gold);
+      }
+
+      .promise__slider-count {
+        margin-left: auto;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        font-variant-numeric: tabular-nums;
+        color: var(--vv-text-gold);
+      }
+
+      .promise__slider-count i {
+        font-style: normal;
+        opacity: 0.55;
+      }
+    }
+
+    /* ======================================================================
+       SECTION 9 — FINAL CTA
+       ====================================================================== */
+    .finale {
+      --finale-ink: var(--vv-forest-700);
+      --finale-ivory: var(--vv-ivory, #f3ecd6);
+      --finale-gold: var(--vv-secondary);
+      --finale-line: rgb(2 57 26 / 0.35);
+  
+      position: relative;
+      isolation: isolate;
+      width: 100%;
+      overflow: hidden;
+      padding-top: var(--vv-section-py);
+      background-color: var(--finale-ivory);
+      color: var(--finale-ink);
+    }
+  
+    .finale :focus-visible {
+      outline: 2px solid var(--finale-ink);
+      outline-offset: 4px;
+    }
+  
+    /* Static ivory backdrop (always fully shown, no scroll wipe) */
+    .finale__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: linear-gradient(180deg, #fbf6e6 0%, var(--finale-ivory) 45%, #e9e2c8 100%);
+    }
+  
+    .finale__inner {
+      position: relative;
+      z-index: 1;
+      padding-inline: var(--vv-gutter);
+    }
+  
+    .finale__title {
+      margin: 0;
+      font-family: var(--vv-font-display);
+      font-size: clamp(2rem, 5.5vw, 2.875rem);
+      font-weight: 400;
+      line-height: 0.92;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      text-align: center;
+      color: var(--finale-ink);
+    }
+
+    .finale__line {
+      display: block;
+      overflow: hidden;
+      padding-block: 0.06em 0.1em;
+      perspective: 800px;
+    }
+
+    .finale__title .fx__char {
+      transform-origin: 50% 100%;
+      backface-visibility: hidden;
+    }
+  
+    .finale__line-inner {
+      display: block;
+      will-change: transform;
+    }
+  
+    /* Lead + button on one hairline */
+    .finale__row {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: clamp(1.5rem, 4vh, 2.25rem);
+      margin-top: clamp(2.5rem, 7vh, 5rem);
+      padding-top: clamp(1.5rem, 4vh, 2.5rem);
+    }
+  
+    .finale__rule {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-color: var(--finale-line);
+      transform-origin: 0 50%;
+    }
+  
+    .finale__lead {
+      /* max-width: 28ch;  */
+      margin: 0;
+      font-size: clamp(1.0625rem, 0.6vw + 0.9rem, 1.625rem);
+      line-height: 1.45;
+      color: var(--vv-primary);
+    }
+  
+    .finale__cta-wrap {
+      justify-self: start;
+    }
+  
+    /* .finale__cta: look + hover come from the shared .btn .btn--solid .btn--bubble */
+
+    /* Full-bleed photograph with the brand lockup on it */
+    .finale__band {
+      position: relative;
+      z-index: 1;
+      height: clamp(24rem, 78svh, 52rem);
+      margin-top: var(--vv-section-py); /* section padding before the full-bleed photo */
+      overflow: hidden;
+      background-color: var(--vv-forest-900);
+    }
+  
+    .finale__img {
+      position: absolute;
+      top: -8%;
+      left: 0;
+      display: block;
+      width: 100%;
+      height: 116%;
+      object-fit: cover;
+      will-change: transform;
+    }
+  
+    .finale__band::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 65%;
+      background: linear-gradient(180deg, transparent, rgb(10 16 24 / 0.7));
+      pointer-events: none;
+    }
+  
+    .finale__brand {
+      position: absolute;
+      left: var(--vv-gutter);
+      right: var(--vv-gutter);
+      bottom: clamp(1.25rem, 4vh, 2.75rem);
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin: 0;
+      color: #f6efdc;
+    }
+  
+    .finale__wordmark {
+      display: block;
+      overflow: hidden;
+      padding-block: 0.04em 0.08em;
+      font-family: var(--vv-font-display);
+      font-size: clamp(2.5rem, 12vw, 7.5rem);
+      font-weight: 300;
+      line-height: 0.85;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+    }
+  
+    .finale__tagline {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: rgb(246 239 220 / 0.9);
+    }
+  
+    /* Desktop: lead left, button right on the same hairline */
+    @media (min-width: 64rem) {
+      .finale__title {
+        font-size: clamp(2.5rem, 6vw, 2.875rem);
+      }
+  
+      .finale__row {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 3rem;
+      }
+  
+      .finale__cta-wrap {
+        justify-self: end;
+      }
+  
+      .finale__brand {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+  
+      .finale__tagline {
+        padding-bottom: 0.6rem;
+      }
+
+      .finale__wordmark {
+        font-size: clamp(8rem, 14vw, 17rem);
+      }
+    }
+
+    /* Tablet + mobile: band follows the photo's own aspect ratio (1266x599)
+       instead of a viewport-based height, so the image isn't cropped. */
+    @media (max-width: 63.99rem) {
+      .finale__band {
+        height: auto;
+        aspect-ratio: 1266 / 599;
+      }
+
+      .finale__brand {
+        gap: 0.5rem;
+      }
+    }
+  
+    /* lg → xl (1024–1279px): no viewport-based height on the photo band; it
+       follows the photo's own aspect ratio (1266x599), as on tablets */
+    @media (min-width: 64rem) and (max-width: 79.99rem) {
+      .finale__band {
+        height: auto;
+        aspect-ratio: 1266 / 599;
+      }
+    }
+
+    @media (max-width: 47.99rem) {
+      .finale__tagline {
+        letter-spacing: 0.24em;
+      }
+    }
+  }
